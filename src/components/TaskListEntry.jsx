@@ -5,7 +5,7 @@ var TaskListEntry = (props) => {
       <div className="media-left media-middle">
       </div>
       <div className="media-body">
-        <div className="task-list-entry-title"</div>
+        <div className="task-list-entry-title"></div>
         <div className="task-list-entry-detail"></div>
       </div>
     </div>

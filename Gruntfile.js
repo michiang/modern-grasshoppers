@@ -30,12 +30,12 @@ module.exports = function(grunt) {
           }
         },
         src: ['src/**/*.jsx'],
-        dest: 'src/index.js'
+        dest: 'src/bundle.js'
       }
     },
     nodemon: {
       dev: {
-        script: 'server.js',
+        script: 'server/server.js',
         options: {
           ignore: ['node_modules/**'],
           callback: function (nodemon) {
@@ -44,7 +44,7 @@ module.exports = function(grunt) {
             });
             nodemon.on('config:update', function () {
             setTimeout(function() {
-              require('open')('http://localhost:8080');
+              require('open')('http://localhost:1337');
             }, 1000);
             });
           }
