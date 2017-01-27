@@ -11,7 +11,7 @@ var app = express();
 app.use(bodyParser.json());
 
 app.get('/', function(req, res) {
-  res.sendFile('../../client/public/index.html');
+  res.sendFile('../../public/index.html');
   // prompt('Enter your username:');
 });
 
