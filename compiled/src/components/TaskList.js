@@ -1,0 +1,20 @@
+"use strict";
+
+var TaskList = function TaskList(props) {
+  return React.createElement(
+    "div",
+    { className: "task list" },
+    React.createElement(TaskListEntry, null)
+  );
+};
+
+// PropTypes tell other developers what `props` a component expects
+// Warnings will be shown in the console when the defined rules are violated
+TaskList.propTypes = {
+  tasks: React.PropTypes.array.isRequired
+};
+
+// In the ES6 spec, files are "modules" and do not share a top-level scope.
+// `var` declarations will only exist globally where explicitly defined.
+window.TaskList = TaskList;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy9jb21wb25lbnRzL1Rhc2tMaXN0LmpzeCJdLCJuYW1lcyI6WyJUYXNrTGlzdCIsInByb3BzIiwicHJvcFR5cGVzIiwidGFza3MiLCJSZWFjdCIsIlByb3BUeXBlcyIsImFycmF5IiwiaXNSZXF1aXJlZCIsIndpbmRvdyJdLCJtYXBwaW5ncyI6Ijs7QUFBQSxJQUFJQSxXQUFXLFNBQVhBLFFBQVcsQ0FBQ0MsS0FBRCxFQUFXO0FBQzFCLFNBQ0U7QUFBQTtBQUFBLE1BQUssV0FBVSxXQUFmO0FBQ0Esd0JBQUMsYUFBRDtBQURBLEdBREY7QUFLQyxDQU5EOztBQVFBO0FBQ0E7QUFDQUQsU0FBU0UsU0FBVCxHQUFxQjtBQUNuQkMsU0FBT0MsTUFBTUMsU0FBTixDQUFnQkMsS0FBaEIsQ0FBc0JDO0FBRFYsQ0FBckI7O0FBSUE7QUFDQTtBQUNBQyxPQUFPUixRQUFQLEdBQWtCQSxRQUFsQiIsImZpbGUiOiJUYXNrTGlzdC5qcyIsInNvdXJjZXNDb250ZW50IjpbInZhciBUYXNrTGlzdCA9IChwcm9wcykgPT4ge1xucmV0dXJuIChcbiAgPGRpdiBjbGFzc05hbWU9XCJ0YXNrIGxpc3RcIj5cbiAgPFRhc2tMaXN0RW50cnkvPlxuICA8L2Rpdj5cbik7XG59XG5cbi8vIFByb3BUeXBlcyB0ZWxsIG90aGVyIGRldmVsb3BlcnMgd2hhdCBgcHJvcHNgIGEgY29tcG9uZW50IGV4cGVjdHNcbi8vIFdhcm5pbmdzIHdpbGwgYmUgc2hvd24gaW4gdGhlIGNvbnNvbGUgd2hlbiB0aGUgZGVmaW5lZCBydWxlcyBhcmUgdmlvbGF0ZWRcblRhc2tMaXN0LnByb3BUeXBlcyA9IHtcbiAgdGFza3M6IFJlYWN0LlByb3BUeXBlcy5hcnJheS5pc1JlcXVpcmVkXG59O1xuXG4vLyBJbiB0aGUgRVM2IHNwZWMsIGZpbGVzIGFyZSBcIm1vZHVsZXNcIiBhbmQgZG8gbm90IHNoYXJlIGEgdG9wLWxldmVsIHNjb3BlLlxuLy8gYHZhcmAgZGVjbGFyYXRpb25zIHdpbGwgb25seSBleGlzdCBnbG9iYWxseSB3aGVyZSBleHBsaWNpdGx5IGRlZmluZWQuXG53aW5kb3cuVGFza0xpc3QgPSBUYXNrTGlzdCJdfQ==
