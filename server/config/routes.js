@@ -8,13 +8,17 @@ var app = express();
 
 // database connection
 
+// UNCOMMENT TO EMPTY DATABASE
+// User.remove({}, function(err) {
+//   console.log('removed');
+// })
+
 // Do we need this?
 // app.use(express.static('client'));
 app.use(bodyParser.json());
 
 app.get('/', function(req, res) {
   res.sendFile('../../public/index.html');
-  // prompt('Enter your username:');
 });
 
 // get all tasks from db
