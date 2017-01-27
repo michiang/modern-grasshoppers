@@ -1,12 +1,12 @@
-# Project Name
+# What Have I Done?!
 
-> Pithy project description
+> Keeps track of what you did all day and allows you to create an invoice based on your activity.
 
 ## Team
 
-  - __Product Owner__: teamMember
-  - __Scrum Master__: teamMember
-  - __Development Team Members__: teamMember, teamMember
+  - __Product Owner__: Daniel Ritchie
+  - __Scrum Master__: Gwynn Dandridge-Perry
+  - __Development Team Members__: Brian Hassett, Michael Chiang
 
 ## Table of Contents
 
@@ -20,15 +20,15 @@
 
 ## Usage
 
-> Some usage instructions
+> Create a task and start the timer. Pause for breaks, and stop when you're done.
 
 ## Requirements
 
-- Node 0.10.x
-- Redis 2.6.x
-- Postgresql 9.1.x
-- etc
-- etc
+- Node v ?
+- MongoDB v ?
+- Express v ?
+- React v ?
+- ?
 
 ## Development
 
@@ -37,14 +37,13 @@
 From within the root directory:
 
 ```sh
-sudo npm install -g bower
 npm install
-bower install
+bower install ?
 ```
 
-### Roadmap
+### Road map
 
-View the project roadmap [here](LINK_TO_PROJECT_ISSUES)
+View the project roadmap [here](https://github.com/Modern-Grasshoppers/modern-grasshoppers/issues)
 
 
 ## Contributing
