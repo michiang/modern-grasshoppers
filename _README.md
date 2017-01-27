@@ -41,7 +41,7 @@ npm install
 bower install ?
 ```
 
-### Roadmap
+### Road map
 
 View the project roadmap [here](https://github.com/Modern-Grasshoppers/modern-grasshoppers/issues)
 
