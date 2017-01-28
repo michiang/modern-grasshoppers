@@ -30,7 +30,7 @@ module.exports = function(grunt) {
           }
         },
         src: ['src/**/*.jsx'],
-        dest: 'src/bundle.js'
+        dest: 'public/bundle.js'
       }
     },
     nodemon: {
