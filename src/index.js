@@ -1,4 +1,5 @@
 "use strict"
+import App from './app'
 import React from 'react'
 import ReactDOM from 'react-dom'
 
@@ -9,5 +10,5 @@ console.log('INSIDE INDEX.JS');
 // test
 ReactDOM.render(
   <h1>You Really Did It!!</h1>,
-  document.getElementById('app')
+  document.getElementById('app');
 );
