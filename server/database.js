@@ -20,7 +20,7 @@ var userSchema = mongoose.Schema({
 var User = mongoose.model("User", userSchema)
 
 userSchema.pre('save', function(next) {
-  // var total_time = this.end_time.diff(start_time);
+  var total_time = this.tasks.end_time.diff(start_time);
   this.total_time = 11;
   next();
 });
