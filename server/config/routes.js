@@ -14,12 +14,13 @@ var app = express();
 // })
 
 // Do we need this?
-// app.use(express.static('client'));
+app.use(express.static(__dirname + '/../../public/'));
+
 app.use(bodyParser.json());
 
-app.get('/', function(req, res) {
-  res.sendFile('../../public/index.html');
-});
+// app.get('/', function(req, res) {
+//   res.sendFile('../../public/index.html');
+// });
 
 // get all tasks from db
 app.get('/users/tasks', function(req, res) {
