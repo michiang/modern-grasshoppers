@@ -1,4 +1,5 @@
 var React = require('react');
+
 var TaskListEntry = (props) => {
 
   return (
@@ -18,6 +19,7 @@ var TaskListEntry = (props) => {
 // TaskListEntry.propTypes = {
 //   task: React.PropTypes.object.isRequired
 // };
+
 
 // In the ES6 spec, files are "modules" and do not share a top-level scope
 // `var` declarations will only exist globally where explicitly defined
