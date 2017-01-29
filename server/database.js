@@ -1,3 +1,4 @@
+
 var mongoose = require('mongoose');
 var moment = require('moment');
 
@@ -17,6 +18,7 @@ var userSchema = mongoose.Schema({
   }]
 })
 
+
 var User = mongoose.model("User", userSchema)
 
 userSchema.pre('save', function(next) {
@@ -26,3 +28,4 @@ userSchema.pre('save', function(next) {
 });
 
 module.exports = User;
+
