@@ -51,11 +51,25 @@ module.exports = function(grunt) {
         }
       }
     },
+    shell: {
+      prodServer: {
+        command: 'git push heroku master',
+        options: {
+          stdout: true,
+          stderr: true,
+          failOnError: true
+        }
+      }
+    }
   });
+
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-concurrent');
+  grunt.loadNpmTasks('grunt-shell');
+
   grunt.registerTask('default', ['build', 'concurrent:target']);
   grunt.registerTask('build', ['browserify']);
+  grunt.registerTask('production', ['shell']);
 }
