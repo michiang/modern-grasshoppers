@@ -1,4 +1,5 @@
 var React = require('react');
+
 var TaskListEntry = (props) => {
 
   return (
@@ -15,6 +16,7 @@ var TaskListEntry = (props) => {
 
 // PropTypes tell other developers what `props` a component expects
 // Warnings will be shown in the console when the defined rules are violated
+
 // TaskListEntry.propTypes = {
 //   task: React.PropTypes.object.isRequired
 // };
