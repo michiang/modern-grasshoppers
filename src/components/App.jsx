@@ -20,7 +20,7 @@ class App extends React.Component {
 
   //Ajax get request needs to be wrapped in a function
   //so that the request can be called every time
-  //componentDidMount is invoked
+  //componentDidMount is invoked.
   //Loads data from API
   loadDataFromServer() {
     $.get('/users/tasks', function(data) {
