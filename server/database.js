@@ -1,4 +1,3 @@
-
 var mongoose = require('mongoose');
 var moment = require('moment');
 
@@ -12,6 +11,7 @@ var userSchema = mongoose.Schema({
     start_time: Date,
     end_time: Date,
     total_time: Number //minutes?
+
     //due_date: Date,
     //start_date: Date,
     // estimated_time: String
