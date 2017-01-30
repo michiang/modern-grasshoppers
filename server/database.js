@@ -11,11 +11,13 @@ var userSchema = mongoose.Schema({
     start_time: Date,
     end_time: Date,
     total_time: Number //minutes?
+
     //due_date: Date,
     //start_date: Date,
     // estimated_time: String
   }]
 })
+
 
 var User = mongoose.model("User", userSchema)
 
@@ -26,3 +28,4 @@ userSchema.pre('save', function(next) {
 });
 
 module.exports = User;
+
