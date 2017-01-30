@@ -6,7 +6,7 @@ var TaskListEntry = (props) => {
     <div className="task list entry">
       <div className="list-body completed">
         <div className="task-entry-task">{props.task}</div>
-        <div className="task-entry-time">{props.time}</div>
+        <div className="task-entry-time">{props.total_time}</div>
       </div>
     </div>
   );
