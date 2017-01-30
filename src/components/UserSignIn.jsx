@@ -1,15 +1,13 @@
 var React = require('react');
 
-var TaskList = (props) => {
+var UserSignIn = (props) => {
   return (
-    <div className="task list">
-    {props.tasks.map((task) =>
-      <TaskListEntry
-        task={task.task}
-        time={task.total_time}
-        key={task.id}
-      />
-    )}
+    <div className="task input">
+      <form>
+        <input type='text' id='username' />
+        <input type='text' id='userpw' />
+        <button></button>
+      </form>
     </div>
   );
 }
@@ -18,9 +16,9 @@ var TaskList = (props) => {
 // Warnings will be shown in the console when the defined rules are violated
 
 TaskList.propTypes = {
-  tasks: React.PropTypes.array.isRequired
+  user: React.PropTypes.array.isRequired
 };
 
 // In the ES6 spec, files are "modules" and do not share a top-level scope.
 // `var` declarations will only exist globally where explicitly defined.
-window.TaskList = TaskList;
+window.UserSignIn = UserSignIn;
