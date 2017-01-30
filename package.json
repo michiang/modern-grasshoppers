@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Modern-Grasshoppers/modern-grasshoppers#readme",
   "dependencies": {
     "babel": "^6.5.2",
+    "babelify": "^7.3.0",
     "body-parser": "^1.16.0",
     "express": "^4.14.0",
     "grunt": "^1.0.1",
