@@ -1,5 +1,5 @@
 import React from 'react';
-import RectDOM from 'react-dom';
+import ReactDOM from 'react-dom';
 import $ from 'jquery';
 
 class App extends React.Component {
@@ -27,7 +27,7 @@ class App extends React.Component {
 
   //Post data to the server only when the stop button is clicked
   //and all data is gathered
-  postDataToServer() {
+  /*postDataToServer() {
     $("StopButton").click(function() {
       $.post('/api/users/tasks',
       {
@@ -40,7 +40,7 @@ class App extends React.Component {
       })
     })
   }
-
+  */
 
   handleChange(event) {
     this.setState({task: event.target.value});
