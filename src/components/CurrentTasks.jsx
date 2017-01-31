@@ -7,7 +7,7 @@ var CurrentTasks = (props) => {
         <div className="task-entry-task">{props.task}</div>
 
         {/* Timer? */}
-        <div className="task-entry-time">{props.total_time}</div>
+        <div className="task-entry-time">{props.time}</div>
     </div>
   );
 };
