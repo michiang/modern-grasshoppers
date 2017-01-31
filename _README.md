@@ -24,11 +24,8 @@
 
 ## Requirements
 
-- Node v ?
-- MongoDB v ?
-- Express v ?
-- React v ?
-- ?
+- Node v6.9.4
+- MongoDB v3.4.1
 
 ## Development
 
