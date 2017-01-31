@@ -3,7 +3,7 @@ var React = require('react');
 var TaskEntry = (props) => {
   return (
     <div>
-      <form>
+      <form >
         <input type='text' onChange={props.handleChange} value={props.currentTask} />
         <div className='buttons'>
           <StartButton onStartButtonClick = {props.onStartButtonClick}/>
@@ -18,7 +18,7 @@ var TaskEntry = (props) => {
 // Warnings will be shown in the console when the defined rules are violated
 
 TaskEntry.propTypes = {
-  task: React.PropTypes.object.isRequired
+  task: React.PropTypes.string.isRequired
 };
 
 // In the ES6 spec, files are "modules" and do not share a top-level scope.
