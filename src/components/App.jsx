@@ -93,6 +93,11 @@ class App extends React.Component {
     console.log('STOP STATE', this.state);
   };
 
+  onPauseButtonClick(e) {
+    e.preventDefault();
+
+  }
+
   // handleSubmit(e) {
   //   e.preventDefault()
   //   this.setState({
@@ -134,6 +139,7 @@ class App extends React.Component {
             task={this.state.currentTask}
             handleChange={this.handleChange.bind(this)}
             onStopButtonClick={this.onStopButtonClick.bind(this)}
+            onPauseButtonClick={this.onPauseButtonClick.bind(this)}
             onStartButtonClick={this.onStartButtonClick.bind(this)}
           />
         </div>
