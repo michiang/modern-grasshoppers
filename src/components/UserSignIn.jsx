@@ -4,8 +4,8 @@ var UserSignIn = (props) => {
   return (
     <div className="task input">
       <form>
-        <input type='text' id='username' />
-        <input type='text' id='userpw' />
+        <input type='text' id='username' placeholder = 'username' />
+        <input type='text' id='userpw' placeholder = 'password' />
         <button></button>
       </form>
     </div>

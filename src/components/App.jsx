@@ -133,6 +133,9 @@ class App extends React.Component {
     return(
       <div>
       <div className='container content'>
+        <div className='signin'>
+          <UserSignIn />
+        </div>
         <div className='container form'>
 
           <TaskEntry
