@@ -22,7 +22,7 @@ var CurrentTasksView = (props) => {
 // Warnings will be shown in the console when the defined rules are violated
 
 CurrentTasksView.propTypes = {
-  tasks: React.PropTypes.array.isRequired
+  task: React.PropTypes.array.isRequired
 };
 
 // In the ES6 spec, files are "modules" and do not share a top-level scope.
