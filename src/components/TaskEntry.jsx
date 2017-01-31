@@ -8,6 +8,7 @@ var TaskEntry = (props) => {
         <div className='buttons'>
           <StartButton onStartButtonClick = {props.onStartButtonClick}/>
           <StopButton onStopButtonClick = {props.onStopButtonClick}/>
+          <PauseButton onPauseButtonClick = {props.onPauseButtonClick}/>
         </div>
       </form>
     </div>
