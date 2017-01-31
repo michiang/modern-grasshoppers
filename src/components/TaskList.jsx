@@ -4,7 +4,7 @@ var TaskList = (props) => {
   return (
     <div className="task list">
     {props.tasks.map((task) =>
-      <TaskListEntry
+      <TaskListItems
         task={task.task}
         time={task.total_time}
         key={task.id}

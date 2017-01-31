@@ -7,14 +7,17 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      tasks: tasks,
-      body: '',
-      start: false,
-      stop: false
+      tasks: [],
+      currentTask: '',
+      start_time: Date,
+      started: false,
+      //stop: true
     }
 
-  this.handleSubmit = this.handleSubmit.bind(this);
-  this.handleChange = this.handleChange.bind(this);
+    //this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.onStartButtonClick = this.onStartButtonClick.bind(this);
+    this.onStopButtonClick = this.onStopButtonClick.bind(this);
   }
 
   //Ajax get request needs to be wrapped in a function
@@ -22,61 +25,87 @@ class App extends React.Component {
   //componentdidMount is invoked
   //Loads data from API
   loadDataFromServer() {
-    $.get('/users/tasks', function(data) {
+    //REFACTOR to get data from just the signed in user..........
+    $.get('/tasks/:user', function(data) {
       console.log(data);
-      global.allData = data;
+      //global.allData = data;
+      this.setState({tasks: data});
     });
   }
 
   //Post data to the server only when the stop button event handler
   //is triggered
   postDataToServer() {
-    $("StopButton").click(function() {
-      $.post('users/tasks'),
-      {
-        task: $("StopButton").val(),
-        timer: "time"
-      },
-      function (data) {
-        console.log(data);
-      }
-    })
-  })
-}
+    console.log('INSIDE POST', this.state);
+    $.post('/tasks/:user'),
+    {
+      task: this.state.currentTask,
+      start_time: this.state.start_time,
+      end_time: Date.now(),
+    },
+    function (data) {
+      console.log(data);
+    }
+  }
 
-handleChange(event) {
-  this.setState({task: event.target.value});
-}
+  onStopButtonClick(e) {
+    this.postDataToServer();
+    console.log('STOP STATE', this.state);
+    //reset state
+    this.setState({
+      //currentTask: '',
+      started: e,
+      //stop: true
+    });
+  };
 
-handleSubmit(e) {
-  e.preventDefault()
-  //this.setState({body: })
-}
+  // handleSubmit(e) {
+  //   e.preventDefault()
+  //   //this.setState({body: })
+  // }
 
-componentdidMount() {
-  this.loadDataFromServer();
-}
+  handleChange(event) {
+    console.log('CHANGE STATE', this.state);
+    this.setState({currentTask: event.target.value});
+  }
+
+  onStartButtonClick(event)  {
+    this.setState({
+      start_time: Date.now(),
+      started: event,  //so we can prevent another task from being created
+      //stop: false
+    });
+    console.log('EVENT', event);
+    console.log('START STATE', this.state);
+  };
+
+  componentdidMount() {
+    this.loadDataFromServer();
+  }
 
   render() {
     return(
+      <div>
       <div className='container content'>
         <div className='container form'>
-          <TaskEntry />
+
+          <TaskEntry
+            task={this.state.currentTask}
+            handleChange={this.handleChange.bind(this)}
+            onStopButtonClick={this.onStopButtonClick.bind(this)}
+            onStartButtonClick={this.onStartButtonClick.bind(this)}
+          />
         </div>
         <div className='container tasks'>
           <TaskList
             tasks={this.state.tasks}
           />
         </div>
-        <div className='buttons'>
-          <StartButton onStartButtonClick = {this.onStartButtonClick.bind(this)}/>
-          <StopButton onStopButtonClick = {this.onStopButtonClick.bind(this)}/>
-        </div>
+      </div>
       </div>
     );
   }
 }
-
 
 
 window.App = App;
