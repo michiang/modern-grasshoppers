@@ -1,10 +1,11 @@
 var mongoose = require('mongoose');
 var moment = require('moment');
+var passportLocalMongoose = require('passport-local-mongoose');
 
 var db = require('./config/config.js');
 
 var userSchema = mongoose.Schema({
-  user: String,
+  username: String,
   password: String,
   tasks: [{
     task: String,
@@ -19,10 +20,10 @@ var userSchema = mongoose.Schema({
 })
 
 
+userSchema.plugin(passportLocalMongoose);
 
 
 var User = mongoose.model("User", userSchema)
-
 // UNCOMMENT TO EMPTY DATABASE
 // User.remove({}, function(err) {
 //   console.log('removed');
