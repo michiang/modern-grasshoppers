@@ -35,7 +35,6 @@ From within the root directory:
 
 ```sh
 npm install
-bower install ?
 ```
 
 ### Road map
@@ -45,4 +44,4 @@ View the project roadmap [here](https://github.com/Modern-Grasshoppers/modern-gr
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
+See [CONTRIBUTING.md](_CONTRIBUTING.md) for contribution guidelines.
