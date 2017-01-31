@@ -212,17 +212,27 @@ class App extends React.Component {
         <div className='container form'>
 
           <TaskEntry
-            task={this.state.currentTask}
             handleChange={this.handleChange.bind(this)}
-            onStopButtonClick={this.onStopButtonClick.bind(this)}
-            onPauseButtonClick={this.onPauseButtonClick.bind(this)}
-            onStartButtonClick={this.onStartButtonClick.bind(this)}
           />
+
         </div>
+
+        { /*TODO: Change className?*/ }
+        <div className="container tasks">
+
+          <CurrentTasksView
+            task={this.state.currentTask}
+            onStartButtonClick={this.onStartButtonClick.bind(this)}
+            onStopButtonClick={this.onStopButtonClick.bind(this)}
+          />
+
+        </div>
+
         <div className='container tasks'>
           <CompletedTaskList
             tasks={this.state.tasks}
           />
+
         </div>
       </div>
       </div>
