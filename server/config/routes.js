@@ -4,37 +4,45 @@ var bodyParser = require('body-parser');
 var db = require('./config.js');
 var User = require('../database.js');
 var moment = require('moment');
-
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 var app = express();
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(express.static(__dirname + '/../../public/'));
 
 app.use(bodyParser.json());
 
+//authentication middleware
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 //add a new user
+//http://mherman.org/blog/2015/01/31/local-authentication-with-passport-and-express-4/
 app.post('/signup', function(req, res) {
-  //post new task to db
-  //check if username exists
-  var user = new User({
-    user: req.body.user,
-    //password: need to add authentication
-  });
-  user.save(function(err, user) {
+//console.log('signing up', req.body.user);
+  User.register(new User({ username: req.body.username}), req.body.password, function(err, user) {
     if(err) {
-      return console.error(err);
-    } else {
-      res.status(204).send('created new user');
+      console.error(err);
     }
+    passport.authenticate('local')(req, res, function () {
+      res.status(200).send('logged in');
+    });
   });
 });
 
 //sign in a new user
+app.post('/signin', passport.authenticate('local'), function(req, res) {
+  res.redirect('/');
+})
 
 //add a new task for a user
-app.post('/tasks/:user', function(req, res) {
-  console.log('REQUEST BODY', req.body)
+app.post('/tasks/:username', passport.authenticate('local'), function(req, res) {
   User.findOneAndUpdate(
-    {user: req.params.user},
+    {user: req.params.username},
     {$push: {tasks:
       {task: req.body.task,
        start_time: req.body.start_time,
@@ -55,8 +63,8 @@ app.post('/tasks/:user', function(req, res) {
 });
 
 //get all tasks for a user
-app.get('/tasks/:user', function(req, res) {
-  User.findOne({user: req.params.user})
+app.get('/tasks/:user', passport.authenticate('local'), function(req, res) {
+  User.findOne({username: req.params.username})
     .then(function(user) {
       console.log(user);
       res.send(user.tasks);
@@ -65,6 +73,5 @@ app.get('/tasks/:user', function(req, res) {
       console.error(err);
     });
 });
-
 
 module.exports = app;
