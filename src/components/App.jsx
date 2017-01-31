@@ -109,6 +109,7 @@ class App extends React.Component {
   }
 
   onStartButtonClick(e)  {
+    //if started === true, then break out or invoke stop button event
     e.preventDefault();
     this.setState({
       start_time: Date.now(),
@@ -137,7 +138,7 @@ class App extends React.Component {
           />
         </div>
         <div className='container tasks'>
-          <TaskList
+          <CompletedTaskList
             tasks={this.state.tasks}
           />
         </div>

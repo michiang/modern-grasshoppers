@@ -1,6 +1,6 @@
 var React = require('react');
 
-var TaskListItems = (props) => {
+var CompletedTaskListItems = (props) => {
 
   return (
     <div className="task list entry">
@@ -15,10 +15,10 @@ var TaskListItems = (props) => {
 // PropTypes tell other developers what `props` a component expects
 // Warnings will be shown in the console when the defined rules are violated
 
-TaskListItems.propTypes = {
+CompletedTaskListItems.propTypes = {
   task: React.PropTypes.object.isRequired
 };
 
 // In the ES6 spec, files are "modules" and do not share a top-level scope
 // `var` declarations will only exist globally where explicitly defined
-window.TaskListItems = TaskListItems;
+window.CompletedTaskListItems = CompletedTaskListItems;
