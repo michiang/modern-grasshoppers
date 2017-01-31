@@ -93,6 +93,11 @@ class App extends React.Component {
     console.log('STOP STATE', this.state);
   };
 
+  onPauseButtonClick(e) {
+    e.preventDefault();
+
+  }
+
   // handleSubmit(e) {
   //   e.preventDefault()
   //   this.setState({
@@ -109,6 +114,7 @@ class App extends React.Component {
   }
 
   onStartButtonClick(e)  {
+    //if started === true, then break out or invoke stop button event
     e.preventDefault();
     this.setState({
       start_time: Date.now(),
@@ -127,17 +133,21 @@ class App extends React.Component {
     return(
       <div>
       <div className='container content'>
+        <div className='signin'>
+          <UserSignIn />
+        </div>
         <div className='container form'>
 
           <TaskEntry
             task={this.state.currentTask}
             handleChange={this.handleChange.bind(this)}
             onStopButtonClick={this.onStopButtonClick.bind(this)}
+            onPauseButtonClick={this.onPauseButtonClick.bind(this)}
             onStartButtonClick={this.onStartButtonClick.bind(this)}
           />
         </div>
         <div className='container tasks'>
-          <TaskList
+          <CompletedTaskList
             tasks={this.state.tasks}
           />
         </div>
