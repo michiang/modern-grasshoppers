@@ -7,7 +7,7 @@ var TaskList = (props) => {
       <TaskListItems
         task={task.task}
         time={task.total_time}
-        key={task.id}
+        //key={task.id}
       />
     )}
     </div>
