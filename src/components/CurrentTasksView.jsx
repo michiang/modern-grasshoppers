@@ -3,7 +3,7 @@ var React = require('react');
 var CurrentTasksView = (props) => {
   return (
     <div className="task list">
-    {props.tasks.map((task) =>
+    {props.task.map((task) =>
       <CurrentTasks
         task={task.task}
         time={task.total_time}
