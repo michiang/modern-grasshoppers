@@ -23,7 +23,7 @@ app.post('/signup', function(req, res) {
     if(err) {
       return console.error(err);
     } else {
-      res.status(201).send('created new user');
+      res.status(204).send('created new user');
     }
   });
 });
@@ -48,7 +48,7 @@ app.post('/tasks/:user', function(req, res) {
       if(err) {
         return console.error(err);
       } else {
-        res.status(201).send('created new task');
+        res.status(204).send('created new task');
       }
     }
   );
