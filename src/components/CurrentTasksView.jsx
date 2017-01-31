@@ -4,13 +4,15 @@ var CurrentTasksView = (props) => {
   return (
     <div className="task list">
     {props.task.map((task) =>
-      <CurrentTasks
-        task={task.task}
-        //time={task.total_time}
-        //key={task.id}
-      />
-      <StartButton onStartButtonClick = {props.onStartButtonClick}/>
-      <StopButton onStopButtonClick = {props.onStopButtonClick}/>
+      <div>
+        <CurrentTasks
+          task={task.task}
+          //time={task.total_time}
+          //key={task.id}
+        />
+        <StartButton onStartButtonClick = {props.onStartButtonClick}/>
+        <StopButton onStopButtonClick = {props.onStopButtonClick}/>
+      </div>
     )}
     </div>
   );
