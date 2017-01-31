@@ -26,10 +26,22 @@ class App extends React.Component {
   //Loads data from API
   loadDataFromServer() {
     //REFACTOR to get data from just the signed in user..........
-    $.get('/tasks/:user', function(data) {
-      console.log(data);
-      //global.allData = data;
-      this.setState({tasks: data});
+    var user = 'Grasshopper';
+
+    // $.get('/tasks/'+user, function(data) {
+    //   global.allData = data;
+    //   console.log('GLOBAL DATA', global.allData);
+    //   this.setState({tasks: data});
+    // });
+
+    $.ajax({
+      type: "GET",
+      url: '/tasks/'+user,
+      success: function(data) {
+        console.log('GOT DATA', data);
+      },
+      contentType: 'application/json',
+      dataType: 'json'
     });
   }
 
@@ -37,31 +49,54 @@ class App extends React.Component {
   //is triggered
   postDataToServer() {
     console.log('INSIDE POST', this.state);
-    $.post('/tasks/:user'),
-    {
-      task: this.state.currentTask,
-      start_time: this.state.start_time,
-      end_time: Date.now(),
-    },
-    function (data) {
-      console.log(data);
-    }
+    var username = 'Grasshopper';
+    // $.post('/tasks/'+username, JSON.stringify({
+    //   task: this.state.currentTask,
+    //   start_time: this.state.start_time,
+    //   end_time: Date.now()
+    // }),
+    // function (data) {
+    //   console.log(data);
+    // },
+    // 'json');
+    $.ajax({
+      type: "POST",
+      url: '/tasks/'+username,
+      data: JSON.stringify({
+        task: this.state.currentTask,
+        start_time: this.state.start_time,
+        end_time: Date.now()
+      }),
+      success: function(data) {
+        console.log('POST SUCCESS', data);
+      },
+      error: function(error) {
+        console.log('POST OOPS!', error);
+      },
+      contentType: 'application/json',
+      dataType: 'json'
+    });
   }
 
   onStopButtonClick(e) {
+    e.preventDefault();
     this.postDataToServer();
-    console.log('STOP STATE', this.state);
     //reset state
     this.setState({
-      //currentTask: '',
+      currentTask: '',
       started: false,
-      //stop: true
     });
+    console.log('STOP STATE', this.state);
   };
 
   // handleSubmit(e) {
   //   e.preventDefault()
-  //   //this.setState({body: })
+  //   this.setState({
+  //     //currentTask: this.refs.taskText,
+  //     end_time: Date.now(),
+  //     started: false,  //so we can prevent another task from being created
+  //     //stop: false
+  //   });
   // }
 
   handleChange(event) {
@@ -69,17 +104,18 @@ class App extends React.Component {
     this.setState({currentTask: event.target.value});
   }
 
-  onStartButtonClick(event)  {
+  onStartButtonClick(e)  {
+    e.preventDefault();
     this.setState({
       start_time: Date.now(),
       started: true,  //so we can prevent another task from being created
-      //stop: false
     });
     console.log('EVENT', event);
     console.log('START STATE', this.state);
   };
 
-  componentdidMount() {
+  componentDidMount() {
+    console.log('COMPONENT DID MOUNT');
     this.loadDataFromServer();
   }
 
