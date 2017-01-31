@@ -5,42 +5,82 @@ var db = require('./config.js');
 var User = require('../database.js');
 var moment = require('moment');
 
+//authentication
+var cookieParser = require('cookie-parser');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+
 var app = express();
 
+//authentication
+app.use(cookieParser());
+app.use(require('express-session')({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+//static assets
 app.use(express.static(__dirname + '/../../public/'));
 
 app.use(bodyParser.json());
 
-//add a new user
-app.post('/signup', function(req, res) {
-  //post new task to db
-  //check if username exists
-  var user = new User({
-    user: req.body.user,
-    //password: need to add authentication
+//authentication middleware
+passport.use(new LocalStrategy(User.authenticate()));
+
+//http://passportjs.org/docs/configure
+passport.serializeUser(User.serializeUser(function(user, done){
+  done(null, user.id);
+}));
+passport.deserializeUser(User.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
   });
-  user.save(function(err, user) {
+}));
+
+//maybe move this to a different module
+var checkCredentials = function(req, res, next) {
+  if(req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect('/');
+};
+
+//add a new user
+//http://mherman.org/blog/2015/01/31/local-authentication-with-passport-and-express-4/
+app.post('/signup', function(req, res) {
+//console.log('signing up', req.body.user);
+  User.register(new User({ username: req.body.username}), req.body.password, function(err, user) {
     if(err) {
-      return console.error(err);
-    } else {
-      res.status(204).send('created new user');
+      console.error(err);
     }
+    passport.authenticate('local')(req, res, function () {
+      res.redirect('/');
+    });
   });
 });
 
 //sign in a new user
+app.post('/signin', passport.authenticate('local'), function(req, res) {
+  res.redirect('/'); //alternate routes for if signup is successful or not?
+})
+
+app.get('/signout', function(req, res) {
+    req.logout();
+    res.redirect('/');
+});
 
 //add a new task for a user
-app.post('/tasks/:user', function(req, res) {
-  console.log('REQUEST BODY', req.body)
+app.post('/tasks', checkCredentials, function(req, res) {
   User.findOneAndUpdate(
-    {user: req.params.user},
+    {_id: req.user._id}, //this comes from the session/cookie
     {$push: {tasks:
       {task: req.body.task,
        start_time: req.body.start_time,
        end_time: req.body.end_time,
-       //total_time
-       total_time: moment(req.body.end_time).diff(moment(req.body.start_time), 'minutes')
+       total_time: moment(req.body.end_time).diff(moment(req.body.start_time), 'minutes') //momentjs
       }}
     },
     {upsert: true, new: true},
@@ -55,16 +95,14 @@ app.post('/tasks/:user', function(req, res) {
 });
 
 //get all tasks for a user
-app.get('/tasks/:user', function(req, res) {
-  User.findOne({user: req.params.user})
+app.get('/tasks', checkCredentials, function(req, res) {
+  User.findOne({_id: req.user._id})
     .then(function(user) {
-      console.log(user);
       res.send(user.tasks);
     })
     .catch(function(err) {
       console.error(err);
     });
 });
-
 
 module.exports = app;
