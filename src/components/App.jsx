@@ -33,16 +33,20 @@ class App extends React.Component {
     //   console.log('GLOBAL DATA', global.allData);
     //   this.setState({tasks: data});
     // });
+    var that = this;
 
     $.ajax({
       type: "GET",
       url: '/tasks/'+user,
       success: function(data) {
         console.log('GOT DATA', data);
+        that.setState({tasks: data});
       },
       contentType: 'application/json',
       dataType: 'json'
     });
+
+
   }
 
   //Post data to the server only when the stop button event handler
