@@ -32,6 +32,7 @@ app.post('/signup', function(req, res) {
 
 //add a new task for a user
 app.post('/tasks/:user', function(req, res) {
+  console.log('REQUEST BODY', req.body)
   User.findOneAndUpdate(
     {user: req.params.user},
     {$push: {tasks:
