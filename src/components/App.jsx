@@ -9,6 +9,7 @@ class App extends React.Component {
     this.state = {
       tasks: [],
       currentTask: '',
+      currentTaskArray: [],
       start_time: Date,
       started: false,
       //stop: true
@@ -221,7 +222,7 @@ class App extends React.Component {
         <div className="container tasks">
 
           <CurrentTasksView
-            task={this.state.currentTask}
+            task={this.state.currentTaskArray}
             onStartButtonClick={this.onStartButtonClick.bind(this)}
             onStopButtonClick={this.onStopButtonClick.bind(this)}
           />
