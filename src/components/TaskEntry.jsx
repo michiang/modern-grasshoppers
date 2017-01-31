@@ -6,8 +6,7 @@ var TaskEntry = (props) => {
       <form >
         <input type='text' onChange={props.handleChange} value={props.currentTask} />
         <div className='buttons'>
-          <StartButton onStartButtonClick = {props.onStartButtonClick}/>
-          <StopButton onStopButtonClick = {props.onStopButtonClick}/>
+          <SubmitButton />
           <PauseButton onPauseButtonClick = {props.onPauseButtonClick}/>
         </div>
       </form>

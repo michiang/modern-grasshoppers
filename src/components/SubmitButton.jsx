@@ -3,7 +3,7 @@ var React = require('react');
 var SubmitButton = (props) => {
   return (
     <div className="submit">
-      <button className = "btn btn-default" onClick={props.onSubmitButtonClick} > START </button>
+      <button className = "btn btn-default" onClick={props.onSubmitButtonClick} > Create </button>
     </div>
   );
 }
