@@ -54,7 +54,7 @@ class App extends React.Component {
     //reset state
     this.setState({
       //currentTask: '',
-      started: e,
+      started: false,
       //stop: true
     });
   };
@@ -72,7 +72,7 @@ class App extends React.Component {
   onStartButtonClick(event)  {
     this.setState({
       start_time: Date.now(),
-      started: event,  //so we can prevent another task from being created
+      started: true,  //so we can prevent another task from being created
       //stop: false
     });
     console.log('EVENT', event);
