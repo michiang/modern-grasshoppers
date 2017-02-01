@@ -7,7 +7,7 @@ var UserSignIn = (props) => {
       <form onSubmit={props.postToSignin}>
         <input type='text' id='username' placeholder = 'username' name='usernameInSignin' onChange={props.handleUsernameChange}/>
         <input type='password' id='userpw' placeholder = 'password' name='passwordInSignin' onChange={props.handleUsernameChange}/>
-        <button></button>
+        <button>Sign In</button>
       </form>
     </div>
   );
