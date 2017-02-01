@@ -262,6 +262,7 @@ class App extends React.Component {
 
           <CurrentTasksView
             task={this.state.currentTaskArray}
+            timer={this.state.secondsElapsed}
             onPauseButtonClick={this.onPauseButtonClick.bind(this)}
             onStartButtonClick={this.onStartButtonClick.bind(this)}
             onStopButtonClick={this.onStopButtonClick.bind(this)}
