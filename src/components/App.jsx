@@ -156,8 +156,9 @@ class App extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    // currentTaskArray.push(this.state.currentTask);
     this.setState({
-      currentTaskArray: [this.state.currentTask]
+      currentTaskArray: this.state.currentTaskArray.concat(this.state.currentTask)
     });
     console.log('SUBMIT', this.state.currentTaskArray);
   }

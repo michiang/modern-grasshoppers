@@ -3,7 +3,7 @@ var React = require('react');
 var TaskEntry = (props) => {
   return (
     <div>
-      <form >
+      <form onSubmit={props.handleSubmit}>
         <input type='text' onChange={props.handleChange} value={props.currentTask} />
         <div className='buttons'>
           <SubmitButton />
