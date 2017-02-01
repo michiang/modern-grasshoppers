@@ -42,6 +42,7 @@ passport.deserializeUser(User.deserializeUser(function(id, done) {
 
 //maybe move this to a different module
 var checkCredentials = function(req, res, next) {
+  console.log(req.isAuthenticated());
   if(req.isAuthenticated()) {
     return next();
   }
@@ -51,20 +52,24 @@ var checkCredentials = function(req, res, next) {
 //add a new user
 //http://mherman.org/blog/2015/01/31/local-authentication-with-passport-and-express-4/
 app.post('/signup', function(req, res) {
-//console.log('signing up', req.body.user);
+  console.log('signing up', req.body.username, req.body.password);
   User.register(new User({ username: req.body.username}), req.body.password, function(err, user) {
     if(err) {
       console.error(err);
     }
     passport.authenticate('local')(req, res, function () {
-      res.redirect('/');
+      res.status(204).send('signed up');
     });
   });
 });
 
 //sign in a new user
 app.post('/signin', passport.authenticate('local'), function(req, res) {
-  res.redirect('/'); //alternate routes for if signup is successful or not?
+  console.log('in signin');
+  console.log(req.body.password);
+  console.log(req.body.username);
+  //res.redirect('/'); //alternate routes for if signup is successful or not?
+  res.status(204).send('logged in')
 })
 
 app.get('/signout', function(req, res) {
