@@ -12,6 +12,11 @@ class App extends React.Component {
       start_time: Date,
       started: false,
       //stop: true
+      passwordInSignin: '',
+      usernameInSignin: '',
+      usernameInSignup: '',
+      passwordInSignup: '',
+      currentUser: ''
     }
 
     //this.handleSubmit = this.handleSubmit.bind(this);
@@ -26,7 +31,7 @@ class App extends React.Component {
   //Loads data from API
   loadDataFromServer() {
     //REFACTOR to get data from just the signed in user..........
-    var user = 'Grasshopper';
+    //var user = 'Grasshopper';
 
     // $.get('/tasks/'+user, function(data) {
     //   global.allData = data;
@@ -37,7 +42,7 @@ class App extends React.Component {
 
     $.ajax({
       type: "GET",
-      url: '/tasks/'+user,
+      url: '/tasks',
       success: function(data) {
         console.log('GOT DATA', data);
         that.setState({tasks: data});
@@ -53,7 +58,7 @@ class App extends React.Component {
   //is triggered
   postDataToServer() {
     console.log('INSIDE POST', this.state);
-    var username = 'Grasshopper';
+    //var username = 'Grasshopper';
     // $.post('/tasks/'+username, JSON.stringify({
     //   task: this.state.currentTask,
     //   start_time: this.state.start_time,
@@ -65,7 +70,7 @@ class App extends React.Component {
     // 'json');
     $.ajax({
       type: "POST",
-      url: '/tasks/'+username,
+      url: '/tasks',
       data: JSON.stringify({
         task: this.state.currentTask,
         start_time: this.state.start_time,
@@ -80,6 +85,7 @@ class App extends React.Component {
       contentType: 'application/json',
       dataType: 'json'
     });
+
   }
 
   onStopButtonClick(e) {
@@ -98,6 +104,55 @@ class App extends React.Component {
 
   }
 
+  postToSignin(e) {
+    e.preventDefault();
+    console.log('INSIDE POST', this.state);
+    var that = this
+    $.ajax({
+      type: "POST",
+      url: '/signin',
+      data: JSON.stringify({
+        username: this.state.usernameInSignin,
+        password: this.state.passwordInSignin
+      }),
+      success: function(data) {
+        console.log('POST SUCCESS', data);
+        that.setState({
+          passwordInSignin: "",
+          currentUser: that.state.usernameInSignin
+        })
+        that.loadDataFromServer();
+      },
+      error: function(error) {
+        console.log('POST OOPS!', error);
+      },
+      contentType: 'application/json',
+      dataType: 'json'
+    });
+  }
+
+  postToSignup(e) {
+    e.preventDefault();
+    console.log('INSIDE POST', this.state);
+    var that = this
+    $.ajax({
+      type: "POST",
+      url: '/signup',
+      data: JSON.stringify({
+        username: this.state.usernameInSignup,
+        password: this.state.passwordInSignup
+      }),
+      success: function(data) {
+        console.log('POST SUCCESS', data);
+      },
+      error: function(error) {
+        console.log('POST OOPS!', error);
+      },
+      contentType: 'application/json',
+      dataType: 'json'
+    });
+  }
+
   // handleSubmit(e) {
   //   e.preventDefault()
   //   this.setState({
@@ -107,6 +162,14 @@ class App extends React.Component {
   //     //stop: false
   //   });
   // }
+
+  handleUsernameChange(e) {
+    console.log('CHANGE STATE', this.state);
+    var state = {};
+    state[e.target.name] = e.target.value;
+    this.setState(state);
+  }
+
 
   handleChange(event) {
     console.log('CHANGE STATE', this.state);
@@ -132,9 +195,19 @@ class App extends React.Component {
   render() {
     return(
       <div>
+      Signed in as {this.state.currentUser}
       <div className='container content'>
         <div className='signin'>
-          <UserSignIn />
+          <UserSignIn
+            postToSignin={this.postToSignin.bind(this)}
+            handleUsernameChange={this.handleUsernameChange.bind(this)}
+            />
+        </div>
+        <div className='signup'>
+          <UserSignUp
+            postToSignup={this.postToSignup.bind(this)}
+            handleUsernameChange={this.handleUsernameChange.bind(this)}
+            />
         </div>
         <div className='container form'>
 
