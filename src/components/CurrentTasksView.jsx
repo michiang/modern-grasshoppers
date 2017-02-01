@@ -12,6 +12,7 @@ var CurrentTasksView = (props) => {
         />
         {console.log(props)}
         <StartButton onStartButtonClick = {props.onStartButtonClick}/>
+        <PauseButton onPauseButtonClick = {props.onPauseButtonClick}/>
         <StopButton onStopButtonClick = {props.onStopButtonClick}/>
       </div>
     )}
