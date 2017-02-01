@@ -12,6 +12,8 @@ class App extends React.Component {
       currentTaskArray: [],
       start_time: Date,
       started: false,
+      secondsElapsed: 0,
+      lastIncrement: null,
       //stop: true
       passwordInSignin: '',
       usernameInSignin: '',
@@ -19,9 +21,11 @@ class App extends React.Component {
       passwordInSignup: '',
       currentUser: ''
     }
+    this.incrementer = null;
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.onPauseButtonClick = this.onPauseButtonClick.bind(this);
     this.onStartButtonClick = this.onStartButtonClick.bind(this);
     this.onStopButtonClick = this.onStopButtonClick.bind(this);
   }
@@ -104,7 +108,10 @@ class App extends React.Component {
 
   onPauseButtonClick(e) {
     e.preventDefault();
-
+    clearInterval(this.incrementer);
+    this.setState({
+      lastIncrement: this.incrementer
+    });
   }
 
   postToSignin(e) {
@@ -199,6 +206,7 @@ class App extends React.Component {
   onStartButtonClick(e)  {
     //if started === true, then break out or invoke stop button event
     e.preventDefault();
+    this.incrementer = setInterval(() => (this.tick(), 1000));
     this.setState({
       start_time: Date.now(),
       started: true,  //so we can prevent another task from being created
@@ -206,6 +214,12 @@ class App extends React.Component {
     console.log('EVENT', event);
     console.log('START STATE', this.state);
   };
+
+  tick() {
+    this.setState({
+      secondsElapsed: this.state.secondsElapsed + 1;
+    });
+  }
 
   componentDidMount() {
     console.log('COMPONENT DID MOUNT');
@@ -248,6 +262,7 @@ class App extends React.Component {
 
           <CurrentTasksView
             task={this.state.currentTaskArray}
+            onPauseButtonClick={this.onPauseButtonClick.bind(this)}
             onStartButtonClick={this.onStartButtonClick.bind(this)}
             onStopButtonClick={this.onStopButtonClick.bind(this)}
           />
