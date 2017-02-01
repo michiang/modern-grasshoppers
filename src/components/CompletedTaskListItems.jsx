@@ -3,10 +3,10 @@ var React = require('react');
 var CompletedTaskListItems = (props) => {
   return (
     <div className="task list entry">
-      <h1>Task:</h1>
-      <div className="list-body completed">
-        <div className="task-entry-task">{props.task} <p>Total Time:</p>{props.time}</div>
-        <div className="task-entry-time"></div>
+      <h2>Completed Task:</h2>
+      <div className="list-body">
+        <div className="task-entry-task">{props.task} <p>Total Time:</p></div>
+        <div className="task-entry-time">{props.time}</div>
       </div>
     </div>
   );
