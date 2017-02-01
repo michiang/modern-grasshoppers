@@ -73,3 +73,9 @@ module.exports = function(grunt) {
   grunt.registerTask('build', ['browserify']);
   grunt.registerTask('production', ['shell']);
 }
+
+// Run 'grunt' to compile with browserify and test locally.
+
+// Using 'grunt production' will push to deployment as long as
+// you have a remote to Heroku set up. Test using 'git remote -v'
+// in the root of your repo.
