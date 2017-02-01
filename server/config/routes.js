@@ -74,7 +74,7 @@ app.post('/signin', passport.authenticate('local'), function(req, res) {
 
 app.get('/signout', function(req, res) {
     req.logout();
-    res.redirect('/');
+    res.status(204).send('logged out');
 });
 
 //add a new task for a user
