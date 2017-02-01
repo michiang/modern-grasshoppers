@@ -6,7 +6,7 @@ var CurrentTasksView = (props) => {
     {props.task.map((task) =>
       <div>
         <CurrentTasks
-          task={props.task}
+          task={task}
           //time={task.total_time}
           //key={task.id}
         />
