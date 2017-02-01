@@ -9,6 +9,7 @@ class App extends React.Component {
     this.state = {
       tasks: [],
       currentTask: '',
+      currentTaskArray: [],
       start_time: Date,
       started: false,
       //stop: true
@@ -19,7 +20,7 @@ class App extends React.Component {
       currentUser: ''
     }
 
-    //this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.onStartButtonClick = this.onStartButtonClick.bind(this);
     this.onStopButtonClick = this.onStopButtonClick.bind(this);
@@ -153,15 +154,14 @@ class App extends React.Component {
     });
   }
 
-  // handleSubmit(e) {
-  //   e.preventDefault()
-  //   this.setState({
-  //     //currentTask: this.refs.taskText,
-  //     end_time: Date.now(),
-  //     started: false,  //so we can prevent another task from being created
-  //     //stop: false
-  //   });
-  // }
+  handleSubmit(e) {
+    e.preventDefault();
+    // currentTaskArray.push(this.state.currentTask);
+    this.setState({
+      currentTaskArray: this.state.currentTaskArray.concat(this.state.currentTask)
+    });
+    console.log('SUBMIT', this.state.currentTaskArray);
+  }
 
   handleUsernameChange(e) {
     console.log('CHANGE STATE', this.state);
@@ -212,17 +212,28 @@ class App extends React.Component {
         <div className='container form'>
 
           <TaskEntry
-            task={this.state.currentTask}
             handleChange={this.handleChange.bind(this)}
-            onStopButtonClick={this.onStopButtonClick.bind(this)}
-            onPauseButtonClick={this.onPauseButtonClick.bind(this)}
-            onStartButtonClick={this.onStartButtonClick.bind(this)}
+            handleSubmit={this.handleSubmit.bind(this)}
           />
+
         </div>
+
+        { /*TODO: Change className?*/ }
+        <div className="container tasks">
+
+          <CurrentTasksView
+            task={this.state.currentTaskArray}
+            onStartButtonClick={this.onStartButtonClick.bind(this)}
+            onStopButtonClick={this.onStopButtonClick.bind(this)}
+          />
+
+        </div>
+
         <div className='container tasks'>
           <CompletedTaskList
             tasks={this.state.tasks}
           />
+
         </div>
       </div>
       </div>
