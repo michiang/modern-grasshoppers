@@ -206,7 +206,7 @@ class App extends React.Component {
   onStartButtonClick(e)  {
     //if started === true, then break out or invoke stop button event
     e.preventDefault();
-    this.incrementer = setInterval(() => (this.tick(), 1000));
+    this.incrementer = setInterval(() => (this.tick()), 1000);
     this.setState({
       start_time: Date.now(),
       started: true,  //so we can prevent another task from being created
