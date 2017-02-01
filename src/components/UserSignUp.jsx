@@ -7,7 +7,7 @@ var UserSignUp = (props) => {
       <form onSubmit={props.postToSignup}>
         <input type='text' id='username' placeholder = 'username' name='usernameInSignup' onChange={props.handleUsernameChange}/>
         <input type='password' id='userpw' placeholder = 'password' name='passwordInSignup' onChange={props.handleUsernameChange}/>
-        <button></button>
+        <button>Create Account</button>
       </form>
     </div>
   );

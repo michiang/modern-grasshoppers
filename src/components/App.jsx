@@ -69,6 +69,7 @@ class App extends React.Component {
     //   console.log(data);
     // },
     // 'json');
+    var that = this;
     $.ajax({
       type: "POST",
       url: '/tasks',
@@ -79,6 +80,7 @@ class App extends React.Component {
       }),
       success: function(data) {
         console.log('POST SUCCESS', data);
+        that.loadDataFromServer();
       },
       error: function(error) {
         console.log('POST OOPS!', error);
@@ -145,6 +147,24 @@ class App extends React.Component {
       }),
       success: function(data) {
         console.log('POST SUCCESS', data);
+        that.loadDataFromServer();
+      },
+      error: function(error) {
+        console.log('POST OOPS!', error);
+      },
+      contentType: 'application/json',
+      dataType: 'json'
+    });
+  }
+
+  signout(e) {
+    e.preventDefault();
+    $.ajax({
+      type: "GET",
+      url: '/signout',
+      success: function() {
+        //route to signin?
+        console.log('GET SUCCESS');
       },
       error: function(error) {
         console.log('POST OOPS!', error);
@@ -208,6 +228,11 @@ class App extends React.Component {
             postToSignup={this.postToSignup.bind(this)}
             handleUsernameChange={this.handleUsernameChange.bind(this)}
             />
+        </div>
+        <div>
+          <UserSignout
+            signout={this.signout.bind(this)}
+          />
         </div>
         <div className='container form'>
 
