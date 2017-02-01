@@ -5,7 +5,6 @@ var CurrentTasks = (props) => {
   return (
     <div className="current-task">
         <div className="task-entry-task">{props.task}</div>
-
         {/* Timer? */}
         <div className="task-entry-time">{props.time}</div>
     </div>
