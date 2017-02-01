@@ -217,7 +217,7 @@ class App extends React.Component {
 
   tick() {
     this.setState({
-      secondsElapsed: this.state.secondsElapsed + 1;
+      secondsElapsed: this.state.secondsElapsed + 1
     });
   }
 
