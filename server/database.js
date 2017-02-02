@@ -8,6 +8,7 @@ var db = require('./config/config.js');
 var userSchema = mongoose.Schema({
   username: String,
   password: String,
+  projectArray: [],
   tasks: [{
     task: String,
     start_time: Date,
