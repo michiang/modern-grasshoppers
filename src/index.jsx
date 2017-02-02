@@ -3,36 +3,43 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Router, Route, IndexRoute, hashHistory} from 'react-router';
+//import routes from './components/routes.jsx'
 import CheckLoggedIn from './components/CheckLoggedIn.jsx'
+import Layout from './pages/Layout.jsx'
 
-var Layout = require('./pages/Layout.jsx').default;
 //var App = require('./components/App.jsx').default;
 //var UserSignIn = require('./components/UserSignIn.jsx');
 //var UserSignUp = require('./components/UserSignUp.jsx');
-
-console.log('INSIDE INDEX.JS');
 
 var app = document.getElementById('app');
 
 var routes = (
     <Route path="/" component={Layout}>
-      <IndexRoute component={Layout}></IndexRoute>
-      <Route path="signin" component={UserSignIn} />
-      <Route path="signup" component={UserSignUp} />
       <Route component={CheckLoggedIn}>
-        <Route path="tasks" component={App} />
+        <IndexRoute component={App} />
+        <Route path="/signin" component={UserSignIn} />
+        <Route path="/signup" component={UserSignUp} />
+        <Route path="/tasks" component={App} />
       </Route>
+      <Route path='*' component={NotFound} />
     </Route>
 );
 
-// ReactDOM.render(
-//   <Router history={hashHistory}>{routes}</Router>,
-// app);
+const NotFound = () => (
+  <h1>404.. This page is not found!</h1>)
 
-ReactDOM.render(<App />, document.getElementById('app'));
+function requireAuth(nextState, replace, callback) {
+  console.log('requireAuth isLoggedIn', App.isLoggedIn);
+  if (App.isLoggedIn === undefined || App.isLoggedIn === false) {
+    replace({
+      pathname: '/signin',
+      state: { nextPathname: nextState.location.pathname }
+    })
+  }
+}
 
-// test works
-// ReactDOM.render(
-//   <h1>You Really Did It!!</h1>,
-//   document.getElementById('app')
-// );
+ReactDOM.render(
+  <Router history={hashHistory}>{routes}</Router>,
+app);
+
+//ReactDOM.render(<App />, document.getElementById('app'));
