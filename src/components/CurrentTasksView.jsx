@@ -10,8 +10,9 @@ var CurrentTasksView = (props) => {
           //time={task.total_time}
           //key={task.id}
         />
-        {console.log(props)}
+        <div>Timer: {props.timer}</div>
         <StartButton onStartButtonClick = {props.onStartButtonClick}/>
+        <PauseButton onPauseButtonClick = {props.onPauseButtonClick}/>
         <StopButton onStopButtonClick = {props.onStopButtonClick}/>
       </div>
     )}
