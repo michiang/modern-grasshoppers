@@ -48,14 +48,14 @@ class App extends React.Component {
     //   console.log('GLOBAL DATA', global.allData);
     //   this.setState({tasks: data});
     // });
-    var that = this;
+    var context = this;
 
     $.ajax({
       type: "GET",
       url: '/tasks',
       success: function(data) {
         console.log('GOT DATA', data);
-        that.setState({tasks: data});
+        context.setState({tasks: data});
       },
       contentType: 'application/json',
       dataType: 'json'

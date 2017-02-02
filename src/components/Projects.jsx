@@ -6,7 +6,7 @@ var Projects = (props) => {
     {props.projectArray.map((project) =>
       <div>
         <ProjectsList
-          task={project}
+          project={project}
         />
       </div>
     )}
