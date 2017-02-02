@@ -21,7 +21,9 @@ class App extends React.Component {
       usernameInSignin: '',
       usernameInSignup: '',
       passwordInSignup: '',
-      currentUser: ''
+      currentUser: '',
+      project: '',
+      projectArray: []
     }
     // Init for the setInterval/timer increment function.
     this.incrementer = null;
@@ -46,14 +48,14 @@ class App extends React.Component {
     //   console.log('GLOBAL DATA', global.allData);
     //   this.setState({tasks: data});
     // });
-    var that = this;
+    var context = this;
 
     $.ajax({
       type: "GET",
       url: '/tasks',
       success: function(data) {
         console.log('GOT DATA', data);
-        that.setState({tasks: data});
+        context.setState({tasks: data});
       },
       contentType: 'application/json',
       dataType: 'json'
@@ -210,6 +212,12 @@ class App extends React.Component {
   onStartButtonClick(e)  {
     //if started === true, then break out or invoke stop button event
     e.preventDefault();
+    //Projects feature
+    var projectName = prompt("Enter your project", "Project Name");
+    this.setState({
+      project: projectName,
+      projectArray: this.state.projectArray.concat(this.state.project)
+    });
     // Timer increment function.
     this.incrementer = setInterval(() => (this.tick()), 1000);
     this.setState({
@@ -259,6 +267,14 @@ class App extends React.Component {
             signout={this.signout.bind(this)}
           />
         </div>
+
+        <div className='container projects'>
+          <Projects
+            projectArray={this.state.projectArray}
+          />
+
+        </div>
+
         <div className='container form'>
 
           <TaskEntry
