@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
-
+// Trying to implement timer in its own class to be able to
+// keep track of individual task times.
 class Timer extends React.Component {
   constructor (props) {
     super(props);
@@ -12,7 +13,8 @@ class Timer extends React.Component {
     }
     this.incrementer = null;
   }
-
+  //////////////////
+  // not sure if these two are needing to be placed in this file
   formatTime(seconds) {
     return Math.floor(seconds / 60) + ':' + ('0' + seconds % 60).slice(-2);
   }
@@ -22,7 +24,7 @@ class Timer extends React.Component {
       secondsElapsed: this.state.secondsElapsed + 1
     });
   }
-
+  /////////////////
   render() {
     return(
       <div>
