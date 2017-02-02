@@ -2,7 +2,7 @@ var React = require('react');
 
 var CurrentTasksView = (props) => {
   return (
-    <div className="task list">
+    <div className="task-list">
     {props.task.map((task) =>
       <div>
         <CurrentTasks
