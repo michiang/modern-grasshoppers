@@ -7,6 +7,7 @@ var CompletedTaskList = (props) => {
       <CompletedTaskListItems
         task={task.task}
         time={task.total_time}
+        project = {task.project}
         key={task.id}
       />
     )}
