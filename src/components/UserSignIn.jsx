@@ -1,4 +1,4 @@
-var React = require('react');
+import React from 'react';
 
 var UserSignIn = (props) => {
   return (
@@ -18,7 +18,7 @@ var UserSignIn = (props) => {
 // Warnings will be shown in the console when the defined rules are violated
 
 UserSignIn.propTypes = {
-  user: React.PropTypes.array.isRequired
+  user: React.PropTypes.object
 };
 
 // In the ES6 spec, files are "modules" and do not share a top-level scope.

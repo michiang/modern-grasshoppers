@@ -26,6 +26,7 @@ class App extends React.Component {
       projectArray: [],
       incorrectLogin: false,
       usernameTaken: false
+      isLoggedIn: false
     }
     // Init for the setInterval/timer increment function.
     this.incrementer = null;
@@ -131,6 +132,7 @@ class App extends React.Component {
           passwordInSignin: "",
           currentUser: that.state.usernameInSignin,
           incorrectLogin: false
+          isLoggedIn: true
         })
         that.loadDataFromServer();
       },
@@ -183,6 +185,11 @@ class App extends React.Component {
       url: '/signout',
       success: function() {
         //route to signin?
+        that.setState({
+          passwordInSignin: "",
+          currentUser: "",
+          isLoggedIn: false
+        })
         console.log('GET SUCCESS');
         that.setState({
           tasks: [],
