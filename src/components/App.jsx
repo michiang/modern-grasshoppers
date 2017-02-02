@@ -12,8 +12,6 @@ class App extends React.Component {
       currentTaskArray: [],
       start_time: Date,
       started: false,
-      secondsElapsed: 0,
-      lastIncrement: null,
       //stop: true
       passwordInSignin: '',
       usernameInSignin: '',
@@ -21,7 +19,6 @@ class App extends React.Component {
       passwordInSignup: '',
       currentUser: ''
     }
-    this.incrementer = null;
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -197,7 +194,6 @@ class App extends React.Component {
     this.setState(state);
   }
 
-
   handleChange(event) {
     console.log('CHANGE STATE', this.state);
     this.setState({currentTask: event.target.value});
@@ -262,7 +258,6 @@ class App extends React.Component {
 
           <CurrentTasksView
             task={this.state.currentTaskArray}
-            timer={this.state.secondsElapsed}
             onPauseButtonClick={this.onPauseButtonClick.bind(this)}
             onStartButtonClick={this.onStartButtonClick.bind(this)}
             onStopButtonClick={this.onStopButtonClick.bind(this)}
