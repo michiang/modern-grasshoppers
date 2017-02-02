@@ -10,11 +10,10 @@ var CurrentTasksView = (props) => {
           //time={task.total_time}
           //key={task.id}
         />
-        <Timer
-          onStartButtonClick = {props.onStartButtonClick}
-          onPauseButtonClick = {props.onPauseButtonClick}
-          onStopButtonClick = {props.onStopButtonClick}
-        />
+        <div>Timer: {props.timer}</div>
+        <StartButton onStartButtonClick = {props.onStartButtonClick}/>
+        <PauseButton onPauseButtonClick = {props.onPauseButtonClick}/>
+        <StopButton onStopButtonClick = {props.onStopButtonClick}/>
       </div>
     )}
     </div>
