@@ -134,6 +134,7 @@ class App extends React.Component {
           incorrectLogin: false
           isLoggedIn: true
         })
+        console.log('SIGN-IN SUCCESS STATE', that.state);
         that.loadDataFromServer();
       },
       error: function(error) {
@@ -160,6 +161,12 @@ class App extends React.Component {
       }),
       success: function(data) {
         console.log('POST SUCCESS', data);
+        that.setState({
+          passwordInSignin: "",
+          currentUser: that.state.usernameInSignin,
+          isLoggedIn: true
+        })
+        console.log('SIGN-UP SUCCESS STATE', that.state);
         that.loadDataFromServer();
         that.setState({
           currentUser: that.state.usernameInSignin,
@@ -184,13 +191,6 @@ class App extends React.Component {
       type: "GET",
       url: '/signout',
       success: function() {
-        //route to signin?
-        that.setState({
-          passwordInSignin: "",
-          currentUser: "",
-          isLoggedIn: false
-        })
-        console.log('GET SUCCESS');
         that.setState({
           tasks: [],
           currentTask: '',
@@ -208,8 +208,10 @@ class App extends React.Component {
           passwordInSignup: '',
           currentUser: '',
           project: '',
-          projectArray: []
+          projectArray: [],
+          isLoggedIn: false
         })
+        console.log('SIGN-OUT SUCCESS STATE', that.state);
       },
       error: function(error) {
         console.log('POST OOPS!', error);

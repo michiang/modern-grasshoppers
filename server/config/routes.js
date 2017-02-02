@@ -63,7 +63,7 @@ app.post('/signup', function(req, res) {
     }
     passport.authenticate('local')(req, res, function () {
       //204 is the only code that yields a "success" for the ajax request
-      res.status(204).send('signed up');
+      res.status(204).redirect('/tasks');
     });
   });
 });
@@ -73,12 +73,12 @@ app.post('/signin', passport.authenticate('local'), function(req, res) {
   //check to see what username and password is being passed in
   // console.log(req.body.password);
   // console.log(req.body.username);
-  res.status(204).send('logged in')
+  res.status(204).redirect('/tasks')
 })
 
 app.get('/signout', function(req, res) {
     req.logout();
-    res.status(204).send('logged out');
+    res.status(204).redirect('/');
 });
 
 //add a new task for a user
