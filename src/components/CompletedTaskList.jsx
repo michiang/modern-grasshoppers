@@ -1,4 +1,4 @@
-var React = require('react');
+import React from 'react';
 
 var CompletedTaskList = (props) => {
   return (
@@ -19,7 +19,7 @@ var CompletedTaskList = (props) => {
 // Warnings will be shown in the console when the defined rules are violated
 
 CompletedTaskList.propTypes = {
-  tasks: React.PropTypes.array.isRequired
+  tasks: React.PropTypes.array
 };
 
 // In the ES6 spec, files are "modules" and do not share a top-level scope.
