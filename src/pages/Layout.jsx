@@ -2,24 +2,8 @@ import React from 'react';
 
 var TasksLayout = (props) => (
 
-      <div>
-      {this.props.children && React.cloneElement(this.props.children, {
-              postDataToServer: this.postDataToServer.bind(this),
-              onStartButtonClick: this.onStartButtonClick.bind(this),
-              onStopButtonClick: this.onStopButtonClick.bind(this),
-              handleChange: this.handleChange.bind(this),
-              handleSubmit: this.handleSubmit.bind(this),
-              handleUsernameChange: this.handleUsernameChange.bind(this),
-              postToSignin: this.postToSignin.bind(this),
-              postToSignup: this.postToSignup.bind(this),
-              signout: this.signout.bind(this),
-              loadDataFromServer: this.loadDataFromServer.bind(this),
-              appState: this.state
-            })}
-
-
-
-      Signed in as {props.state.currentUser}
+    <div>
+      Signed in as {props.currentUser}
       <div className='container content'>
         <div>
           <UserSignout
@@ -39,7 +23,7 @@ var TasksLayout = (props) => (
         <div className="container tasks">
 
           <CurrentTasksView
-            task={props.state.currentTaskArray}
+            task={props.currentTaskArray}
             onStartButtonClick={props.onStartButtonClick}
             onStopButtonClick={props.onStopButtonClick}
           />
@@ -48,12 +32,12 @@ var TasksLayout = (props) => (
 
         <div className='container tasks'>
           <CompletedTaskList
-            tasks={props.state.tasks}
+            tasks={props.tasks}
           />
 
         </div>
       </div>
-      </div>
+    </div>
 )
 
 //window.Layout = Layout;
