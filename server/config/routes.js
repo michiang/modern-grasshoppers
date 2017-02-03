@@ -109,7 +109,7 @@ app.post('/tasks', checkCredentials, function(req, res) {
 app.get('/tasks', checkCredentials, function(req, res) {
   User.findOne({_id: req.user._id}) //req.user._id comes from the cookie
     .then(function(user) {
-      res.send(user.tasks);
+      res.status(204).send(user.tasks);
     })
     .catch(function(err) {
       console.error(err);

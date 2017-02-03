@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
+import {Link} from 'react-router';
 
 class App extends React.Component {
   constructor (props) {
@@ -82,11 +83,11 @@ class App extends React.Component {
         project: this.state.project
       }),
       success: function(data) {
-        console.log('POST SUCCESS', data);
+        console.log('POST SUCCESS');
         that.loadDataFromServer();
       },
       error: function(error) {
-        console.log('POST OOPS!', error);
+        console.log('POST DATA OOPS!', error);
       },
       contentType: 'application/json',
       dataType: 'json'
@@ -138,10 +139,10 @@ class App extends React.Component {
         that.loadDataFromServer();
       },
       error: function(error) {
-        console.log('POST OOPS!', error);
         that.setState({
           incorrectLogin: true
-        })
+        });
+        console.log('POST SIGN-IN OOPS!', error);
       },
       contentType: 'application/json',
       dataType: 'json'
@@ -174,10 +175,10 @@ class App extends React.Component {
         })
       },
       error: function(error) {
-        console.log('POST OOPS!', error);
         that.setState({
           usernameTaken: true
-        })
+        });
+        console.log('POST SIGN-UP OOPS!', error);
       },
       contentType: 'application/json',
       dataType: 'json'
@@ -214,7 +215,7 @@ class App extends React.Component {
         console.log('SIGN-OUT SUCCESS STATE', that.state);
       },
       error: function(error) {
-        console.log('POST OOPS!', error);
+        console.log('POST SIGN-OUT OOPS!', error);
       },
       contentType: 'application/json',
       dataType: 'json'
@@ -280,70 +281,100 @@ class App extends React.Component {
 
   render() {
     return(
-      <div>
-      Signed in as {this.state.currentUser}
-      <div className='container content'>
-        <div className='signin'>
-          <UserSignIn
-            postToSignin={this.postToSignin.bind(this)}
-            handleUsernameChange={this.handleUsernameChange.bind(this)}
-            incorrectLogin={this.state.incorrectLogin}
-            />
-        </div>
-        <div className='signup'>
-          <UserSignUp
-            postToSignup={this.postToSignup.bind(this)}
-            handleUsernameChange={this.handleUsernameChange.bind(this)}
-            usernameTaken={this.state.usernameTaken}
-            />
-        </div>
-        <div>
-          <UserSignout
-            signout={this.signout.bind(this)}
-          />
-        </div>
+      <div id='main-nav'>
+        <nav>
+          <ul role='nav'>
+            <li><Link to='/' onlyActiveOnIndex>Home</Link></li>
+            <li><Link to='/signin'>Sign In</Link></li>
+            <li><Link to='/signup'>Sign Up</Link></li>
+            <li><Link to='/tasks'>Tasks</Link></li>
+            <li><Link to='/layout'>Layout</Link></li>
 
-        <div className='container projects'>
-          <Projects
-            projectArray={this.state.projectArray}
-          />
-
-        </div>
-
-        <div className='container form'>
-
-          <TaskEntry
-            handleChange={this.handleChange.bind(this)}
-            handleSubmit={this.handleSubmit.bind(this)}
-          />
-
-        </div>
-
-        { /*TODO: Change className?*/ }
-        <div className="container tasks">
-
-          <CurrentTasksView
-            task={this.state.currentTaskArray}
-            timer={this.formatTime(this.state.secondsElapsed)}
-            onPauseButtonClick={this.onPauseButtonClick.bind(this)}
-            onStartButtonClick={this.onStartButtonClick.bind(this)}
-            onStopButtonClick={this.onStopButtonClick.bind(this)}
-          />
-
-        </div>
-
-        <div className='container tasks'>
-          <CompletedTaskList
-            tasks={this.state.tasks}
-          />
-
-        </div>
-      </div>
+          </ul>
+        </nav>
+        {this.props.children && React.cloneElement(this.props.children, {
+              postDataToServer: this.postDataToServer.bind(this),
+              onStartButtonClick: this.onStartButtonClick.bind(this),
+              onStopButtonClick: this.onStopButtonClick.bind(this),
+              handleChange: this.handleChange.bind(this),
+              handleSubmit: this.handleSubmit.bind(this),
+              handleUsernameChange: this.handleUsernameChange.bind(this),
+              postToSignin: this.postToSignin.bind(this),
+              postToSignup: this.postToSignup.bind(this),
+              signout: this.signout.bind(this),
+              loadDataFromServer: this.loadDataFromServer.bind(this),
+              appState: this.state
+            })}
       </div>
     );
   }
+
+
+  // render: function() {
+  //   var children = React.Children.map(this.props.children, function (child) {
+  //     return React.cloneElement(child, {
+  //       foo: this.state.foo
+  //     })
+  //   })
+
+  //   return <div>{children}</div>
+  // }
+
+  // render() {
+  //   return(
+  //     <div>
+  //     Signed in as {this.state.currentUser}
+  //     <div className='container content'>
+  //       <div className='signin'>
+  //         <UserSignIn
+  //           postToSignin={this.postToSignin.bind(this)}
+  //           handleUsernameChange={this.handleUsernameChange.bind(this)}
+  //           />
+  //       </div>
+  //       <div className='signup'>
+  //         <UserSignUp
+  //           postToSignup={this.postToSignup.bind(this)}
+  //           handleUsernameChange={this.handleUsernameChange.bind(this)}
+  //           />
+  //       </div>
+  //       <div>
+  //         <UserSignout
+  //           signout={this.signout.bind(this)}
+  //         />
+  //       </div>
+  //       <div className='container form'>
+
+  //         <TaskEntry
+  //           handleChange={this.handleChange.bind(this)}
+  //           handleSubmit={this.handleSubmit.bind(this)}
+  //         />
+
+  //       </div>
+
+  //       { /*TODO: Change className?*/ }
+  //       <div className="container tasks">
+
+  //         <CurrentTasksView
+  //           task={this.state.currentTaskArray}
+  //           onStartButtonClick={this.onStartButtonClick.bind(this)}
+  //           onStopButtonClick={this.onStopButtonClick.bind(this)}
+  //         />
+
+  //       </div>
+
+  //       <div className='container tasks'>
+  //         <CompletedTaskList
+  //           tasks={this.state.tasks}
+  //         />
+
+  //       </div>
+  //     </div>
+  //     </div>
+  //   );
+  // }
 }
 
 
 window.App = App;
+//export default App
 
