@@ -88,6 +88,7 @@ app.post('/tasks', checkCredentials, function(req, res) {
     //push a new task into the tasks array
     {$push: {tasks:
       {task: req.body.task,
+       project: req.body.project,
        start_time: req.body.start_time,
        end_time: req.body.end_time,
        total_time: moment(req.body.end_time).diff(moment(req.body.start_time), 'minutes') //momentjs -- calculates elapsed time in minutes
