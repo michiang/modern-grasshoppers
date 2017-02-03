@@ -44,13 +44,23 @@ passport.deserializeUser(User.deserializeUser(function(id, done) {
 //only allows http requests to tasks to go through if a user is authenticated
 //maybe move this to a different module
 var checkCredentials = function(req, res, next) {
-  console.log(req.isAuthenticated());
+  console.log('REQ isAuthenticated', req.isAuthenticated());
   if(req.isAuthenticated()) {
     return next();
   } else {
-    res.redirect('/signin');
+    //res.redirect('#/signin');
   }
 };
+
+// app.get('/', checkCredentials, function(req, res) {
+//   User.findOne({_id: req.user._id}) //req.user._id comes from the cookie
+//     .then(function(user) {
+//       res.send(user);
+//     })
+//     .catch(function(err) {
+//       console.error(err);
+//     });
+// });
 
 //add a new user
 //http://mherman.org/blog/2015/01/31/local-authentication-with-passport-and-express-4/
@@ -108,9 +118,10 @@ app.post('/tasks', checkCredentials, function(req, res) {
 
 //get all tasks for a user
 app.get('/tasks', checkCredentials, function(req, res) {
+  console.log('REQ.user', req.user);
   User.findOne({_id: req.user._id}) //req.user._id comes from the cookie
     .then(function(user) {
-      res.status(204).send(user.tasks);
+      res.send(user.tasks);
     })
     .catch(function(err) {
       console.error(err);

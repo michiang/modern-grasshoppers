@@ -7,7 +7,7 @@ var TasksLayout = (props) => (
       <div className='container content'>
         <div>
           <UserSignout
-            signout={props.signout.bind(this)}
+            signout={props.signout}
           />
         </div>
         <div className='container form'>

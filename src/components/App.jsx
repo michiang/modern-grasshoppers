@@ -91,16 +91,16 @@ class App extends React.Component {
     console.log('INSIDE POST', this.state);
     var that = this
     $.ajax({
-      type: "POST",
-      url: '/signin',
+      type: 'POST',
+      url: 'signin',
       data: JSON.stringify({
-        username: this.state.usernameInSignin,
-        password: this.state.passwordInSignin
+        username: that.state.usernameInSignin,
+        password: that.state.passwordInSignin
       }),
       success: function(data) {
         //console.log('SIGN-IN POST SUCCESS DATA', data);
         that.setState({
-          passwordInSignin: "",
+          passwordInSignin: '',
           currentUser: that.state.usernameInSignin,
           incorrectLogin: false
           isLoggedIn: true
@@ -127,8 +127,8 @@ class App extends React.Component {
       type: "POST",
       url: '/signup',
       data: JSON.stringify({
-        username: this.state.usernameInSignup,
-        password: this.state.passwordInSignup
+        username: that.state.usernameInSignup,
+        password: that.state.passwordInSignup
       }),
       success: function(data) {
         console.log('SIGN-UP POST SUCCESS', data);
@@ -202,7 +202,7 @@ class App extends React.Component {
   }
 
   handleUsernameChange(e) {
-    console.log('CHANGE STATE', this.state);
+    //console.log('CHANGE STATE', this.state);
     var state = {};
     state[e.target.name] = e.target.value;
     this.setState(state);
@@ -266,7 +266,8 @@ class App extends React.Component {
 
   componentDidMount() {
     console.log('COMPONENT DID MOUNT');
-    this.loadDataFromServer();
+    //authenticate user
+    //this.loadDataFromServer();
   }
 
   render() {
@@ -277,9 +278,7 @@ class App extends React.Component {
             <li><Link to='/'>Home</Link></li>
             <li><Link to='signin'>Sign In</Link></li>
             <li><Link to='signup'>Sign Up</Link></li>
-            <li><Link to='layout'>Tasks Layout</Link></li>
-            <li><Link to='tasks'>Tasks Named Components</Link></li>
-
+            <li><Link to='tasks'>Tasks Layout</Link></li>
           </ul>
         </nav>
         {this.props.children && React.cloneElement(this.props.children, {
