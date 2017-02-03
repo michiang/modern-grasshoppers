@@ -55,8 +55,6 @@ class App extends React.Component {
       contentType: 'application/json',
       dataType: 'json'
     });
-
-
   }
 
   //Post data to the server only when the stop button event handler
