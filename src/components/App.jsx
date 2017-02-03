@@ -44,16 +44,7 @@ class App extends React.Component {
   //componentdidMount is invoked
   //Loads data from API
   loadDataFromServer() {
-    //REFACTOR to get data from just the signed in user..........
-    //var user = 'Grasshopper';
-
-    // $.get('/tasks/'+user, function(data) {
-    //   global.allData = data;
-    //   console.log('GLOBAL DATA', global.allData);
-    //   this.setState({tasks: data});
-    // });
     var context = this;
-
     $.ajax({
       type: "GET",
       url: '/tasks',
@@ -71,7 +62,7 @@ class App extends React.Component {
   //Post data to the server only when the stop button event handler
   //is triggered
   postDataToServer() {
-    console.log('INSIDE POST', this.state);
+    console.log('INSIDE POST DATA', this.state);
     var that = this;
     $.ajax({
       type: "POST",
@@ -95,27 +86,6 @@ class App extends React.Component {
 
   }
 
-  onStopButtonClick(e) {
-    e.preventDefault();
-    this.postDataToServer();
-    //reset state
-    this.setState({
-      currentTask: '',
-      started: false,
-    });
-    console.log('STOP STATE', this.state);
-  };
-
-  onPauseButtonClick(e) {
-    e.preventDefault();
-    // Pause timer increment.
-    clearInterval(this.incrementer);
-    // Keep track of what time the timer was paused on.
-    this.setState({
-      lastIncrement: this.incrementer
-    });
-  }
-
   postToSignin(e) {
     e.preventDefault();
     console.log('INSIDE POST', this.state);
@@ -128,7 +98,7 @@ class App extends React.Component {
         password: this.state.passwordInSignin
       }),
       success: function(data) {
-        console.log('POST SUCCESS', data);
+        //console.log('SIGN-IN POST SUCCESS DATA', data);
         that.setState({
           passwordInSignin: "",
           currentUser: that.state.usernameInSignin,
@@ -142,7 +112,7 @@ class App extends React.Component {
         that.setState({
           incorrectLogin: true
         });
-        console.log('POST SIGN-IN OOPS!', error);
+        console.log('SIGN-IN POST OOPS!', error);
       },
       contentType: 'application/json',
       dataType: 'json'
@@ -161,7 +131,7 @@ class App extends React.Component {
         password: this.state.passwordInSignup
       }),
       success: function(data) {
-        console.log('POST SUCCESS', data);
+        console.log('SIGN-UP POST SUCCESS', data);
         that.setState({
           passwordInSignin: "",
           currentUser: that.state.usernameInSignin,
@@ -178,7 +148,7 @@ class App extends React.Component {
         that.setState({
           usernameTaken: true
         });
-        console.log('POST SIGN-UP OOPS!', error);
+        console.log('SIGN-UP POST OOPS!', error);
       },
       contentType: 'application/json',
       dataType: 'json'
@@ -262,6 +232,27 @@ class App extends React.Component {
     console.log('START STATE', this.state);
   };
 
+  onStopButtonClick(e) {
+    e.preventDefault();
+    this.postDataToServer();
+    //reset state
+    this.setState({
+      currentTask: '',
+      started: false,
+    });
+    console.log('STOP STATE', this.state);
+  };
+
+  onPauseButtonClick(e) {
+    e.preventDefault();
+    // Pause timer increment.
+    clearInterval(this.incrementer);
+    // Keep track of what time the timer was paused on.
+    this.setState({
+      lastIncrement: this.incrementer
+    });
+  }
+
   // Puts timer in a normal syntax, instead of just counting seconds.
   formatTime(seconds) {
     return Math.floor(seconds / 60) + ':' + ('0' + seconds % 60).slice(-2);
@@ -271,8 +262,7 @@ class App extends React.Component {
   tick() {
     this.setState({
       secondsElapsed: this.state.secondsElapsed + 1
-    });
-  }
+  });
 
   componentDidMount() {
     console.log('COMPONENT DID MOUNT');
@@ -284,11 +274,11 @@ class App extends React.Component {
       <div id='main-nav'>
         <nav>
           <ul role='nav'>
-            <li><Link to='/' onlyActiveOnIndex>Home</Link></li>
-            <li><Link to='/signin'>Sign In</Link></li>
-            <li><Link to='/signup'>Sign Up</Link></li>
-            <li><Link to='/tasks'>Tasks</Link></li>
-            <li><Link to='/layout'>Layout</Link></li>
+            <li><Link to='/'>Home</Link></li>
+            <li><Link to='signin'>Sign In</Link></li>
+            <li><Link to='signup'>Sign Up</Link></li>
+            <li><Link to='layout'>Tasks Layout</Link></li>
+            <li><Link to='tasks'>Tasks Named Components</Link></li>
 
           </ul>
         </nav>
@@ -303,7 +293,17 @@ class App extends React.Component {
               postToSignup: this.postToSignup.bind(this),
               signout: this.signout.bind(this),
               loadDataFromServer: this.loadDataFromServer.bind(this),
-              appState: this.state
+              tasks: this.state.tasks,
+              currentTask: this.state.currentTask,
+              currentTaskArray: this.state.currentTaskArray,
+              start_time: this.state.start_time,
+              started: this.state.started,
+              passwordInSignin: this.state.passwordInSignin,
+              usernameInSignin: this.state.usernameInSignin,
+              usernameInSignup: this.state.usernameInSignup,
+              passwordInSignup: this.state.passwordInSignup,
+              currentUser: this.state.currentuser,
+              isLoggedIn: this.state.isLoggedIn
             })}
       </div>
     );
@@ -372,7 +372,7 @@ class App extends React.Component {
   //     </div>
   //   );
   // }
-}
+//}
 
 
 window.App = App;

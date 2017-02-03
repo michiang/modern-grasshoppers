@@ -2,20 +2,27 @@ import React from 'react';
 import $ from 'jquery';
 
 class CheckLoggedIn extends React.Component {
-  componentDidMount() {
-    //const { currentURL } = this.props
-    var isAuth = requireAuth();
+  constructor (props) {
+    super(props);
 
-    if (!isAuth) {
-      console.log('CheckLoggedIn = false', App.isLoggedIn);
+    this.state = {
+      isAuth: false
+    }
+  }
+
+  componentDidMount() {
+    this.isAuth = requireAuth();
+
+    if (!this.isAuth) {
+      console.log('CheckLoggedIn = false', this.isAuth);
       this.props.history.replace('/signin');
-      //browserHistory.replace("/login")
+      //browserHistory.replace("/signin")
     }
   }
 
   render() {
-    if (isAuth) {
-      console.log('CheckLoggedIn = true', App.isLoggedIn);
+    if (this.isAuth) {
+      console.log('CheckLoggedIn = true', isAuth);
       //this.props.router.replace('/tasks');
       return this.props.children
     } else {
@@ -24,7 +31,7 @@ class CheckLoggedIn extends React.Component {
   }
 }
 
-var requireAuth = function () {
+function requireAuth () {
     //console.log('INSIDE REQUIRE AUTH', App);
     var isAuth;
     //var that = App;
@@ -32,7 +39,7 @@ var requireAuth = function () {
       type: "POST",
       url: '/tasks',
       success: function(data) {
-        console.log('POST SUCCESS', data);
+        console.log('POST AUTH SUCCESS', data);
         isAuth = true;
       },
       error: function(error) {

@@ -4,18 +4,37 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Router, Route, IndexRoute, hashHistory} from 'react-router';
 //import routes from './components/routes.jsx'
-//import CheckLoggedIn from './components/CheckLoggedIn.jsx'
+import CheckLoggedIn from './components/CheckLoggedIn.jsx'
+//import App from './components/App.jsx'
+//import UserSignIn from './components/UserSignIn.jsx'
+//import UserSignUp from './components/UserSignUp.jsx'
 import Layout from './pages/Layout.jsx'
 
 var app = document.getElementById('app');
 
+// var routes = (
+//     <Route path="/" component={App}>
+
+//       <Route path="signin" component={UserSignIn} />
+//       <Route path="signup" component={UserSignUp} />
+//       <Route path='tasks' component={Layout} onEnter={requireAuth} />
+//       <Route path="layout" component={NamedComponents}>
+//         <IndexRoute components={{ taskEntry: TaskEntry, currentTasks: CurrentTasks, completedTaskList: CompletedTaskList }} />
+//       </Route>
+
+//       <Route path='*' component={NotFound} />
+//     </Route>
+// );
+
 var routes = (
     <Route path="/" component={App}>
 
-      <Route path="/signin" component={UserSignIn} />
-      <Route path="/signup" component={UserSignUp} />
-      <Route path='/tasks' component={Layout} onEnter={requireAuth} />
-      <Route path="/layout" component={NamedComponents}>
+      <Route path="signin" component={UserSignIn} />
+      <Route path="signup" component={UserSignUp} />
+      <Route component={CheckLoggedIn}>
+        <Route path="layout" component={Layout} />
+      </Route>
+      <Route path="tasks" component={NamedComponents}>
         <IndexRoute components={{ taskEntry: TaskEntry, currentTasks: CurrentTasks, completedTaskList: CompletedTaskList }} />
       </Route>
 
@@ -28,22 +47,10 @@ const NotFound = () => (
 
 const NamedComponents = (props) => (
   <div>
-    {this.props.children && React.cloneElement(this.props.children, {
-              postDataToServer: this.postDataToServer.bind(this),
-              onStartButtonClick: this.onStartButtonClick.bind(this),
-              onStopButtonClick: this.onStopButtonClick.bind(this),
-              handleChange: this.handleChange.bind(this),
-              handleSubmit: this.handleSubmit.bind(this),
-              handleUsernameChange: this.handleUsernameChange.bind(this),
-              postToSignin: this.postToSignin.bind(this),
-              postToSignup: this.postToSignup.bind(this),
-              signout: this.signout.bind(this),
-              loadDataFromServer: this.loadDataFromServer.bind(this),
-              appState: this.state
-            })}
-    {props.taskEntry}<br />
-    {props.currentTasks}<br />
-    {props.completedTaskList}
+    {this.props.children}
+    {this.props.children.taskEntry}<br />
+    {this.props.children.currentTasks}<br />
+    {this.props.children.completedTaskList}
   </div>
 );
 
