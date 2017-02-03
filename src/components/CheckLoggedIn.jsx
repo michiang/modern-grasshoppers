@@ -1,19 +1,20 @@
 import React from 'react';
+import $ from 'jquery';
 
 class CheckLoggedIn extends React.Component {
   componentDidMount() {
     //const { currentURL } = this.props
-    requireAuth();
+    var isAuth = requireAuth();
 
-    if (!App.isLoggedIn) {
+    if (!isAuth) {
       console.log('CheckLoggedIn = false', App.isLoggedIn);
-      this.props.router.replace('/signin');
+      this.props.history.replace('/signin');
       //browserHistory.replace("/login")
     }
   }
 
   render() {
-    if (App.isLoggedIn) {
+    if (isAuth) {
       console.log('CheckLoggedIn = true', App.isLoggedIn);
       //this.props.router.replace('/tasks');
       return this.props.children
@@ -24,27 +25,27 @@ class CheckLoggedIn extends React.Component {
 }
 
 var requireAuth = function () {
-    console.log('INSIDE POST', this.state);
-    var that = this
+    //console.log('INSIDE REQUIRE AUTH', App);
+    var isAuth;
+    //var that = App;
     $.ajax({
-      type: "GET",
+      type: "POST",
       url: '/tasks',
       success: function(data) {
         console.log('POST SUCCESS', data);
-        that.setState({
-          passwordInSignin: "",
-          currentUser: that.state.usernameInSignin,
-          isLoggedIn: true
-        })
-        console.log('SIGN-IN SUCCESS STATE', that.state);
-        that.loadDataFromServer();
+        isAuth = true;
       },
       error: function(error) {
-        console.log('POST OOPS!', error);
+        //console.log('SIGN-IN FAILURE STATE', that.state);
+        console.log('POST AUTH OOPS!', error);
+        isAuth = false;
       },
       contentType: 'application/json',
       dataType: 'json'
     });
+
+    App.isLoggedIn = isAuth;
+    return isAuth;
 }
 
 export default CheckLoggedIn
