@@ -23,7 +23,9 @@ class App extends React.Component {
       passwordInSignup: '',
       currentUser: '',
       project: '',
-      projectArray: []
+      projectArray: [],
+      incorrectLogin: false,
+      usernameTaken: false
     }
     // Init for the setInterval/timer increment function.
     this.incrementer = null;
@@ -68,16 +70,6 @@ class App extends React.Component {
   //is triggered
   postDataToServer() {
     console.log('INSIDE POST', this.state);
-    //var username = 'Grasshopper';
-    // $.post('/tasks/'+username, JSON.stringify({
-    //   task: this.state.currentTask,
-    //   start_time: this.state.start_time,
-    //   end_time: Date.now()
-    // }),
-    // function (data) {
-    //   console.log(data);
-    // },
-    // 'json');
     var that = this;
     $.ajax({
       type: "POST",
@@ -85,7 +77,8 @@ class App extends React.Component {
       data: JSON.stringify({
         task: this.state.currentTask,
         start_time: this.state.start_time,
-        end_time: Date.now()
+        end_time: Date.now(),
+        project: this.state.project
       }),
       success: function(data) {
         console.log('POST SUCCESS', data);
@@ -136,12 +129,16 @@ class App extends React.Component {
         console.log('POST SUCCESS', data);
         that.setState({
           passwordInSignin: "",
-          currentUser: that.state.usernameInSignin
+          currentUser: that.state.usernameInSignin,
+          incorrectLogin: false
         })
         that.loadDataFromServer();
       },
       error: function(error) {
         console.log('POST OOPS!', error);
+        that.setState({
+          incorrectLogin: true
+        })
       },
       contentType: 'application/json',
       dataType: 'json'
@@ -162,9 +159,16 @@ class App extends React.Component {
       success: function(data) {
         console.log('POST SUCCESS', data);
         that.loadDataFromServer();
+        that.setState({
+          currentUser: that.state.usernameInSignin,
+          usernameTaken: false
+        })
       },
       error: function(error) {
         console.log('POST OOPS!', error);
+        that.setState({
+          usernameTaken: true
+        })
       },
       contentType: 'application/json',
       dataType: 'json'
@@ -173,12 +177,32 @@ class App extends React.Component {
 
   signout(e) {
     e.preventDefault();
+    var that = this;
     $.ajax({
       type: "GET",
       url: '/signout',
       success: function() {
         //route to signin?
         console.log('GET SUCCESS');
+        that.setState({
+          tasks: [],
+          currentTask: '',
+          currentTaskArray: [],
+          start_time: Date,
+          started: false,
+          // Counter for the timer.
+          secondsElapsed: 0,
+          // For keeping track of time when paused.
+          lastIncrement: null,
+          //stop: true
+          passwordInSignin: '',
+          usernameInSignin: '',
+          usernameInSignup: '',
+          passwordInSignup: '',
+          currentUser: '',
+          project: '',
+          projectArray: []
+        })
       },
       error: function(error) {
         console.log('POST OOPS!', error);
@@ -254,12 +278,14 @@ class App extends React.Component {
           <UserSignIn
             postToSignin={this.postToSignin.bind(this)}
             handleUsernameChange={this.handleUsernameChange.bind(this)}
+            incorrectLogin={this.state.incorrectLogin}
             />
         </div>
         <div className='signup'>
           <UserSignUp
             postToSignup={this.postToSignup.bind(this)}
             handleUsernameChange={this.handleUsernameChange.bind(this)}
+            usernameTaken={this.state.usernameTaken}
             />
         </div>
         <div>
