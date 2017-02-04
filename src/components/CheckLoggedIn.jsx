@@ -12,15 +12,15 @@ class CheckLoggedIn extends React.Component {
 
   componentDidMount() {
     //this.props.isLoggedIn = requireAuth();
-    //var isAuth = requireAuth();
-    console.log('this.props.isLoggedIn', this.props.isLoggedIn);
+    var isAuth = requireAuth();
+    console.log('this.props.isLoggedIn', this.props.isLoggedIn, isAuth);
 
     if (!this.props.isLoggedIn) {
-      console.log('CheckLoggedIn = false', this.props.isLoggedIn);
+      console.log('CheckLoggedIn = false', this.props.isLoggedIn, isAuth);
       this.props.router.replace('/signin');
       //browserHistory.replace("/signin")
     } else {
-      console.log('CheckLoggedIn = true', this.props.isLoggedIn);
+      console.log('CheckLoggedIn = true', this.props.isLoggedIn, isAuth);
       this.props.router.replace('/tasks');
     }
   }
