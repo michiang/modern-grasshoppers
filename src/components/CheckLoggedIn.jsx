@@ -12,23 +12,23 @@ class CheckLoggedIn extends React.Component {
 
   componentDidMount() {
     //this.props.isLoggedIn = requireAuth();
-    var isAuth = requireAuth();
+    //var isAuth = requireAuth();
     console.log('this.props.isLoggedIn', this.props.isLoggedIn);
 
     if (!this.props.isLoggedIn) {
-      console.log('CheckLoggedIn = false', this.props.isLoggedIn, isAuth);
+      console.log('CheckLoggedIn = false', this.props.isLoggedIn);
       this.props.router.replace('/signin');
       //browserHistory.replace("/signin")
     } else {
-      console.log('CheckLoggedIn = true', this.props.isLoggedIn, isAuth);
+      console.log('CheckLoggedIn = true', this.props.isLoggedIn);
       this.props.router.replace('/tasks');
     }
   }
 
   render() {
-    if (this.props.isLoggedIn) {
-      console.log('CheckLoggedIn = true', this.props.isLoggedIn);
-      //this.props.router.replace('/tasks');
+    // if (this.props.isLoggedIn) {
+    //   console.log('CheckLoggedIn = true', this.props.isLoggedIn);
+    //   //this.props.router.replace('/tasks');
       return (
         this.props.children && React.cloneElement(this.props.children, {
               postDataToServer: this.props.postDataToServer,
@@ -54,9 +54,9 @@ class CheckLoggedIn extends React.Component {
               isLoggedIn: this.props.isLoggedIn
             })
       );
-    } else {
-      return null
-    }
+    // } else {
+    //   return null
+    //}
   }
 }
 

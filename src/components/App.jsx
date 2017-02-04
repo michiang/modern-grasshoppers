@@ -26,7 +26,7 @@ class App extends React.Component {
       project: '',
       projectArray: [],
       incorrectLogin: false,
-      usernameTaken: false
+      usernameTaken: false,
       isLoggedIn: false
     }
     // Init for the setInterval/timer increment function.
@@ -100,7 +100,7 @@ class App extends React.Component {
         that.setState({
           passwordInSignin: '',
           currentUser: that.state.usernameInSignin,
-          incorrectLogin: false
+          incorrectLogin: false,
           isLoggedIn: true
         })
         console.log('SIGN-IN SUCCESS STATE', that.state);
@@ -156,8 +156,9 @@ class App extends React.Component {
   signout(e) {
     e.preventDefault();
     var that = this;
+    // reset state
     $.ajax({
-      type: "GET",
+      type: 'POST',
       url: '/signout',
       success: function() {
         that.setState({
@@ -183,7 +184,7 @@ class App extends React.Component {
         console.log('SIGN-OUT SUCCESS STATE', that.state);
       },
       error: function(error) {
-        console.log('POST SIGN-OUT OOPS!', error);
+        console.log('SIGN-OUT OOPS!', error);
       },
       contentType: 'application/json',
       dataType: 'json'
@@ -260,7 +261,8 @@ class App extends React.Component {
   tick() {
     this.setState({
       secondsElapsed: this.state.secondsElapsed + 1
-  });
+    });
+  }
 
   componentDidMount() {
     console.log('COMPONENT DID MOUNT');
@@ -369,7 +371,7 @@ class App extends React.Component {
   //     </div>
   //   );
   // }
-//}
+}
 
 
 window.App = App;
