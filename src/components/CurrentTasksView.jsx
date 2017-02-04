@@ -1,4 +1,4 @@
-var React = require('react');
+import React from 'react';
 
 var CurrentTasksView = (props) => {
   return (
@@ -6,9 +6,9 @@ var CurrentTasksView = (props) => {
     {props.task.map((task) =>
       <div>
         <CurrentTasks
-          task={task}
+          task={task.taskText}
           //time={task.total_time}
-          //key={task.id}
+          key={task._id}
         />
         <div>Timer: {props.timer}</div>
         <StartButton onStartButtonClick = {props.onStartButtonClick}/>
@@ -24,7 +24,7 @@ var CurrentTasksView = (props) => {
 // Warnings will be shown in the console when the defined rules are violated
 
 CurrentTasksView.propTypes = {
-  task: React.PropTypes.array.isRequired
+  task: React.PropTypes.array
 };
 
 // In the ES6 spec, files are "modules" and do not share a top-level scope.

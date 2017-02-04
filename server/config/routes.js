@@ -44,12 +44,30 @@ passport.deserializeUser(User.deserializeUser(function(id, done) {
 //only allows http requests to tasks to go through if a user is authenticated
 //maybe move this to a different module
 var checkCredentials = function(req, res, next) {
-  console.log(req.isAuthenticated());
+  console.log('REQ isAuthenticated', req.isAuthenticated());
   if(req.isAuthenticated()) {
     return next();
+  } else {
+    res.redirect('#/signin'); //not needed for CheckLoggedIn
   }
-  res.redirect('/');
 };
+
+app.get('/', checkCredentials, function(req, res) {
+  console.log('GET /', req.body);
+  res.send(user);
+});
+
+// app.get('/', checkCredentials, function(req, res) {
+//   console.log('GET /', req.user);
+//   User.findOne({_id: req.user._id}) //req.user._id comes from the cookie
+//     .then(function(user) {
+//       res.send(user);
+//     })
+//     .catch(function(err) {
+//       console.error(err);
+//       res.redirect('#/signin');
+//     });
+// });
 
 //add a new user
 //http://mherman.org/blog/2015/01/31/local-authentication-with-passport-and-express-4/
@@ -63,7 +81,7 @@ app.post('/signup', function(req, res) {
     }
     passport.authenticate('local')(req, res, function () {
       //204 is the only code that yields a "success" for the ajax request
-      res.status(204).send('signed up');
+      res.status(204).send('You are signed up');
     });
   });
 });
@@ -73,12 +91,14 @@ app.post('/signin', passport.authenticate('local'), function(req, res) {
   //check to see what username and password is being passed in
   // console.log(req.body.password);
   // console.log(req.body.username);
-  res.status(204).send('logged in')
-})
+  //console.log('SERVER POST SIGN-IN', req.body.username);
+  res.status(204).send('You are signed in');
+});
 
-app.get('/signout', function(req, res) {
+app.post('/signout', function(req, res) {
+  //console.log('SIGN-OUT', req.user);
     req.logout();
-    res.status(204).send('logged out');
+    res.status(204).send('You are signed out');
 });
 
 //add a new task for a user
@@ -107,6 +127,7 @@ app.post('/tasks', checkCredentials, function(req, res) {
 
 //get all tasks for a user
 app.get('/tasks', checkCredentials, function(req, res) {
+  //console.log('REQ.user', req.user);
   User.findOne({_id: req.user._id}) //req.user._id comes from the cookie
     .then(function(user) {
       res.send(user.tasks);
