@@ -42,15 +42,42 @@ class App extends React.Component {
   //Ajax get request needs to be wrapped in a function
   //so that the request can be called every time
   //componentdidMount is invoked
+  checkAuth() {
+    console.log('INSIDE checkAuth');
+    var context = this;
+    $.ajax({
+      type: 'GET',
+      url: '/',
+      success: function() {
+        console.log('LOGGED IN!');
+        context.setState({
+          isLoggedIn: true
+        });
+      },
+      error: function(error) {
+        console.log('NOT LOGGED IN!', error);
+      },
+      contentType: 'application/json',
+      dataType: 'json'
+    });
+  }
+
+
   //Loads data from API
   loadDataFromServer() {
     var context = this;
     $.ajax({
-      type: "GET",
+      type: 'GET',
       url: '/tasks',
       success: function(data) {
         console.log('GOT DATA', data);
-        context.setState({tasks: data});
+        context.setState({
+          tasks: data,
+          isLoggedIn: true
+        });
+      },
+      error: function(error) {
+        console.log('GET DATA ERROR!', error);
       },
       contentType: 'application/json',
       dataType: 'json'
@@ -267,7 +294,8 @@ class App extends React.Component {
   componentDidMount() {
     console.log('COMPONENT DID MOUNT');
     //authenticate user
-    //this.loadDataFromServer();
+    this.checkAuth();
+    this.loadDataFromServer();
   }
 
   render() {
@@ -319,58 +347,6 @@ class App extends React.Component {
   //   return <div>{children}</div>
   // }
 
-  // render() {
-  //   return(
-  //     <div>
-  //     Signed in as {this.state.currentUser}
-  //     <div className='container content'>
-  //       <div className='signin'>
-  //         <UserSignIn
-  //           postToSignin={this.postToSignin.bind(this)}
-  //           handleUsernameChange={this.handleUsernameChange.bind(this)}
-  //           />
-  //       </div>
-  //       <div className='signup'>
-  //         <UserSignUp
-  //           postToSignup={this.postToSignup.bind(this)}
-  //           handleUsernameChange={this.handleUsernameChange.bind(this)}
-  //           />
-  //       </div>
-  //       <div>
-  //         <UserSignout
-  //           signout={this.signout.bind(this)}
-  //         />
-  //       </div>
-  //       <div className='container form'>
-
-  //         <TaskEntry
-  //           handleChange={this.handleChange.bind(this)}
-  //           handleSubmit={this.handleSubmit.bind(this)}
-  //         />
-
-  //       </div>
-
-  //       { /*TODO: Change className?*/ }
-  //       <div className="container tasks">
-
-  //         <CurrentTasksView
-  //           task={this.state.currentTaskArray}
-  //           onStartButtonClick={this.onStartButtonClick.bind(this)}
-  //           onStopButtonClick={this.onStopButtonClick.bind(this)}
-  //         />
-
-  //       </div>
-
-  //       <div className='container tasks'>
-  //         <CompletedTaskList
-  //           tasks={this.state.tasks}
-  //         />
-
-  //       </div>
-  //     </div>
-  //     </div>
-  //   );
-  // }
 }
 
 

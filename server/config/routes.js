@@ -48,17 +48,24 @@ var checkCredentials = function(req, res, next) {
   if(req.isAuthenticated()) {
     return next();
   } else {
-    //res.redirect('#/signin');
+    res.redirect('#/signin'); //not needed for CheckLoggedIn
   }
 };
 
+app.get('/', checkCredentials, function(req, res) {
+  console.log('GET /', req.body);
+  res.send(user);
+});
+
 // app.get('/', checkCredentials, function(req, res) {
+//   console.log('GET /', req.user);
 //   User.findOne({_id: req.user._id}) //req.user._id comes from the cookie
 //     .then(function(user) {
 //       res.send(user);
 //     })
 //     .catch(function(err) {
 //       console.error(err);
+//       res.redirect('#/signin');
 //     });
 // });
 
@@ -74,7 +81,7 @@ app.post('/signup', function(req, res) {
     }
     passport.authenticate('local')(req, res, function () {
       //204 is the only code that yields a "success" for the ajax request
-      res.status(204).redirect('/tasks');
+      res.status(204).send('You are signed up');
     });
   });
 });
@@ -84,12 +91,12 @@ app.post('/signin', passport.authenticate('local'), function(req, res) {
   //check to see what username and password is being passed in
   // console.log(req.body.password);
   // console.log(req.body.username);
-  console.log('SERVER POST SIGN-IN', req.body.username);
+  //console.log('SERVER POST SIGN-IN', req.body.username);
   res.status(204).send('You are signed in');
-})
+});
 
 app.post('/signout', function(req, res) {
-  console.log('SIGN-OUT', req.user);
+  //console.log('SIGN-OUT', req.user);
     req.logout();
     res.status(204).send('You are signed out');
 });
@@ -120,7 +127,7 @@ app.post('/tasks', checkCredentials, function(req, res) {
 
 //get all tasks for a user
 app.get('/tasks', checkCredentials, function(req, res) {
-  console.log('REQ.user', req.user);
+  //console.log('REQ.user', req.user);
   User.findOne({_id: req.user._id}) //req.user._id comes from the cookie
     .then(function(user) {
       res.send(user.tasks);
