@@ -84,12 +84,14 @@ app.post('/signin', passport.authenticate('local'), function(req, res) {
   //check to see what username and password is being passed in
   // console.log(req.body.password);
   // console.log(req.body.username);
-  res.status(204).redirect('/tasks')
+  console.log('SERVER POST SIGN-IN', req.body.username);
+  res.status(204).send('You are signed in');
 })
 
-app.get('/signout', function(req, res) {
+app.post('/signout', function(req, res) {
+  console.log('SIGN-OUT', req.user);
     req.logout();
-    res.status(204).redirect('/');
+    res.status(204).send('You are signed out');
 });
 
 //add a new task for a user

@@ -5,10 +5,10 @@ var CompletedTaskList = (props) => {
     <div className="task list">
     {props.tasks.map((task) =>
       <CompletedTaskListItems
-        task={task.task}
+        task={task.taskText}
         time={task.total_time}
         project = {task.project}
-        key={task.id}
+        key={task._id}
       />
     )}
     </div>

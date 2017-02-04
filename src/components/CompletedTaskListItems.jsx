@@ -6,7 +6,7 @@ var CompletedTaskListItems = (props) => {
       <h2>Completed Task:</h2>
       <div className="list-body">
         <div className="task-entry-project"><p>Project:</p>{props.project}</div>
-        <div className="task-entry-task">{props.task} <p>Total Time:</p></div>
+        <div className="task-entry-task" id={props._id}>{props.taskText} <p>Total Time:</p></div>
         <div className="task-entry-time">{props.time}</div>
       </div>
     </div>
