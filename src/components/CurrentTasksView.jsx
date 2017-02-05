@@ -7,13 +7,13 @@ var CurrentTasksView = (props) => {
     {props.tasks.map((task) =>
       <div className="list-body">
         <CurrentTasks
-          task={task.task}
-          time={task.total_time}
           key={task._id}
+          task={task.task}
+          project={task.project}
+          start_time = {task.start_time}
+          secondsElapsed={task.secondsElapsed}
         />
-        <div className='timer'>Timer: {props.timer}</div>
         <StopButton onStopButtonClick = {props.onStopButtonClick.bind(this, task)}/>
-
         <StartButton onStartButtonClick = {props.onStartButtonClick.bind(this, task)}/>
       </div>
     )}

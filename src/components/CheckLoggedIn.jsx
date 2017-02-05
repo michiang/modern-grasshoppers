@@ -62,7 +62,9 @@ class CheckLoggedIn extends React.Component {
               usernameInSignup: this.props.usernameInSignup,
               passwordInSignup: this.props.passwordInSignup,
               currentUser: this.props.currentuser,
-              isLoggedIn: this.props.isLoggedIn
+              isLoggedIn: this.props.isLoggedIn,
+              formatTime: this.props.formatTime,
+              tick: this.props.tick
             })
       );
     // } else {
