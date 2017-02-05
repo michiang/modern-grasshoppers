@@ -33,6 +33,7 @@ class CheckLoggedIn extends React.Component {
         this.props.children && React.cloneElement(this.props.children, {
               postDataToServer: this.props.postDataToServer,
               onStartButtonClick: this.props.onStartButtonClick,
+              onPauseButtonClick: this.props.onPauseButtonClick,
               onStopButtonClick: this.props.onStopButtonClick,
               handleChange: this.props.handleChange,
               handleSubmit: this.props.handleSubmit,
@@ -42,10 +43,20 @@ class CheckLoggedIn extends React.Component {
               signout: this.props.signout,
               loadDataFromServer: this.props.loadDataFromServer,
               tasks: this.props.tasks,
+              activeTask: this.props.activeTask,
               currentTask: this.props.currentTask,
               currentTaskArray: this.props.currentTaskArray,
               start_time: this.props.start_time,
+              end_time: this.props.end_time,
               started: this.props.started,
+              secondsElapsed: this.props.secondsElapsed,
+              // For keeping track of time when paused.
+              lastIncrement: this.props.lastIncrement,
+              //stop: true
+              project: this.props.project,
+              projectArray: this.props.projectArray,
+              incorrectLogin: this.props.incorrectLogin,
+              usernameTaken: this.props.usernameTaken,
               passwordInSignin: this.props.passwordInSignin,
               usernameInSignin: this.props.usernameInSignin,
               usernameInSignup: this.props.usernameInSignup,
