@@ -112,7 +112,7 @@ app.post('/tasks', checkCredentials, function(req, res) {
         if(!user) {
             console.log("User doesn't exist, please sign up.");
         } else {
-          if(req.body._id !== null) {
+          if(user.tasks.id(req.body._id)) {
             var taskToUpdate = user.tasks.id(req.body._id);
             console.log('FOUND TASK to update', taskToUpdate);
             taskToUpdate.task = req.body.task;
@@ -130,8 +130,8 @@ app.post('/tasks', checkCredentials, function(req, res) {
               task: req.body.task,
               project: req.body.project,
               projectArray: req.body.projectArray,
-              start_time: req.body.start_time,
-              end_time: req.body.end_time,
+              start_time: moment(req.body.start_time).format('lll'),
+              end_time: moment(req.body.end_time).format('lll'),
               total_time: moment(req.body.end_time).diff(moment(req.body.start_time), 'minutes'), //momentjs -- calculates elapsed time in minutes
               currentTask: req.body.currentTask,
               lastIncrement: req.body.lastIncrement,
@@ -140,14 +140,14 @@ app.post('/tasks', checkCredentials, function(req, res) {
           }
           user.save(function(err) {
               if(!err) {
-                  console.log("user task added", user.tasks.task, "and in the request", req.body.task);
+                  console.log("user task added", req.body.task);
               }
               else {
-                  console.log("Error: could not save user.task " + user.tasks.task);
+                  console.log("Error: could not save user.task " + req.body.task);
               }
           });
         }
-        res.status(204).send('created new task');
+        res.status(204).send(user.tasks);
       } else {
         //if err
         console.log('ERROR', err);

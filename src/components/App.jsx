@@ -122,7 +122,7 @@ class App extends React.Component {
         started: true,
       }),
       success: function(data) {
-        console.log('POST SUCCESS');
+        console.log('POST SUCCESS', data);
         that.loadDataFromServer();
       },
       error: function(error) {
@@ -246,8 +246,8 @@ class App extends React.Component {
     e.preventDefault();
     this.setState({
       task: this.state.activeTask,
-      start_time: this.state.start_time,
-      end_time: this.state.end_time,
+      start_time: Date,
+      end_time: Date,
       project: this.state.project,
       currentTask: true,
       lastIncrement: this.state.lastIncrement
@@ -285,7 +285,7 @@ class App extends React.Component {
     var projectName = prompt("Enter your project", "Project Name");
     this.setState({
       _id: item._id,
-      task: item.task,
+      activeTask: item.task,
       currentTask: true,
       project: projectName,
       projectArray: this.state.projectArray.concat(projectName),
@@ -295,6 +295,15 @@ class App extends React.Component {
     }, function afterOnStartStateUpdated () {
       this.postDataToServer();
       this.incrementer = setInterval(() => (this.tick()), 1000);
+      this.setState({
+        _id: null,
+        activeTask: '',
+        currentTask: true,
+        project: '',
+        start_time: Date,
+        total_time: 0,
+        started: false,  //so we can prevent another task from being created
+      });
       console.log('START STATE', this.state);
     });
   };
@@ -304,16 +313,26 @@ class App extends React.Component {
     e.preventDefault();
     this.setState({
       _id: item._id,
-      task: item.task,
+      activeTask: item.task,
       currentTask: false,
-      project: item.projectName,
+      project: item.project,
       start_time: item.start_time,
       end_time: Date.now(),
       total_time: item.total_time,
       started: false,
+      lastIncrement: this.incrementer
     }, function afterOnStopStateUpdated () {
       this.postDataToServer();
       this.incrementer = null;
+      this.setState({
+        _id: null,
+        activeTask: '',
+        currentTask: true,
+        project: '',
+        start_time: Date,
+        total_time: 0,
+        started: false,  //so we can prevent another task from being created
+      });
       console.log('STOP STATE', this.state);
     });
   };
@@ -352,7 +371,7 @@ class App extends React.Component {
 
   render() {
     return(
-      <div id='main-nav'>
+      <div id='main'>
         <nav>
           <ul role='nav'>
             <li><Link to='/'>Home</Link></li>
@@ -392,7 +411,9 @@ class App extends React.Component {
               usernameInSignup: this.state.usernameInSignup,
               passwordInSignup: this.state.passwordInSignup,
               currentUser: this.state.currentuser,
-              isLoggedIn: this.state.isLoggedIn
+              isLoggedIn: this.state.isLoggedIn,
+              formatTime: this.formatTime,
+              tick: this.tick
             })}
       </div>
     );

@@ -3,7 +3,6 @@ import React from 'react';
 var TasksLayout = (props) => (
 
     <div>
-      <h4 className='username'>Signed in as {props.currentUser}</h4>
       <div className='container content'>
         <div>
           <UserSignout
