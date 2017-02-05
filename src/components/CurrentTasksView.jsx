@@ -12,9 +12,9 @@ var CurrentTasksView = (props) => {
           key={task._id}
         />
         <div className='timer'>Timer: {props.timer}</div>
-        <StopButton onStopButtonClick = {props.onStopButtonClick}/>
-        <PauseButton onPauseButtonClick = {props.onPauseButtonClick}/>
-        <StartButton onStartButtonClick = {props.onStartButtonClick}/>
+        <StopButton onStopButtonClick = {props.onStopButtonClick.bind(this, task)}/>
+
+        <StartButton onStartButtonClick = {props.onStartButtonClick.bind(this, task)}/>
       </div>
     )}
     </div>
