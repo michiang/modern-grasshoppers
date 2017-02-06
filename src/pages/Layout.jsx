@@ -10,35 +10,30 @@ var TasksLayout = (props) => (
             signout={props.signout}
           />
         </div>
-        <div className='container form'>
 
+        <div className='container form'>
           <TaskEntry
             handleChange={props.handleChange}
             handleSubmit={props.handleSubmit}
           />
-
         </div>
 
         { /*TODO: Change className?*/ }
         <div className="container tasks">
-
           <CurrentTasksView
-            task={props.currentTaskArray}
+            tasks={props.currentTaskArray}
             onStartButtonClick={props.onStartButtonClick}
             onStopButtonClick={props.onStopButtonClick}
           />
-
         </div>
 
         <div className='container tasks'>
           <CompletedTaskList
             tasks={props.tasks}
           />
-
         </div>
       </div>
     </div>
 )
-
 //window.Layout = Layout;
 export default TasksLayout;
