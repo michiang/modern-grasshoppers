@@ -3,11 +3,14 @@ import React from 'react';
 var CompletedTaskList = (props) => {
   return (
     <div className="task list">
+    <h4>Completed Tasks:</h4>
     {props.tasks.map((task) =>
       <CompletedTaskListItems
-        task={task.taskText}
+        task={task.task}
         time={task.total_time}
         project = {task.project}
+        start_time = {task.start_time}
+        end_time = {task.end_time}
         key={task._id}
       />
     )}
