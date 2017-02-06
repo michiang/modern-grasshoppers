@@ -2,18 +2,19 @@ import React from 'react';
 
 var CurrentTasksView = (props) => {
   return (
-    <div className="task-list">
-    {props.task.map((task) =>
-      <div>
+    <div className="task list entry">
+    <h4>Current Tasks:</h4>
+    {props.tasks.map((task) =>
+      <div className="list-body">
         <CurrentTasks
-          task={task.taskText}
-          //time={task.total_time}
           key={task._id}
+          task={task.task}
+          project={task.project}
+          start_time = {task.start_time}
+          secondsElapsed={task.secondsElapsed}
         />
-        <div>Timer: {props.timer}</div>
-        <StartButton onStartButtonClick = {props.onStartButtonClick}/>
-        <PauseButton onPauseButtonClick = {props.onPauseButtonClick}/>
-        <StopButton onStopButtonClick = {props.onStopButtonClick}/>
+        <StopButton onStopButtonClick = {props.onStopButtonClick.bind(this, task)}/>
+        <StartButton onStartButtonClick = {props.onStartButtonClick.bind(this, task)}/>
       </div>
     )}
     </div>
@@ -24,7 +25,7 @@ var CurrentTasksView = (props) => {
 // Warnings will be shown in the console when the defined rules are violated
 
 CurrentTasksView.propTypes = {
-  task: React.PropTypes.array
+  tasks: React.PropTypes.array
 };
 
 // In the ES6 spec, files are "modules" and do not share a top-level scope.

@@ -30,9 +30,6 @@ class Timer extends React.Component {
       <div>
         {this.formatTime(this.state.secondsElapsed)}
         {console.log('TIMER:', this.state)}
-        <StartButton onStartButtonClick = {this.props.onStartButtonClick}/>
-        <PauseButton onPauseButtonClick = {this.props.onPauseButtonClick}/>
-        <StopButton onStopButtonClick = {this.props.onStopButtonClick}/>
       </div>
     )
   }
