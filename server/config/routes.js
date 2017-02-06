@@ -53,9 +53,8 @@ var checkCredentials = function(req, res, next) {
 };
 
 app.get('/', checkCredentials, function(req, res) {
-  console.log('GET /', req.user);
+  console.log('GET /', req.body);
   res.send(user);
-  //res.redirect('#/tasks');
 });
 
 // app.get('/', checkCredentials, function(req, res) {
@@ -104,85 +103,27 @@ app.post('/signout', function(req, res) {
 
 //add a new task for a user
 app.post('/tasks', checkCredentials, function(req, res) {
-  User.findOne(
+  User.findOneAndUpdate(
     {_id: req.user._id}, //this comes from the cookie
     //push a new task into the tasks array
-    function(err, user) {
-      if(!err) {
-        if(!user) {
-            console.log("User doesn't exist, please sign up.");
-        } else {
-          if(user.tasks.id(req.body._id)) {
-            var taskToUpdate = user.tasks.id(req.body._id);
-            console.log('FOUND TASK to update', taskToUpdate);
-            taskToUpdate.task = req.body.task;
-            taskToUpdate.project = req.body.project;
-            taskToUpdate.projectArray = req.body.projectArray;
-            taskToUpdate.start_time = req.body.start_time;
-            taskToUpdate.end_time = req.body.end_time;
-            taskToUpdate.total_time = moment(req.body.end_time).diff(moment(req.body.start_time), 'minutes'); //momentjs -- calculates elapsed time in minutes
-            taskToUpdate.currentTask = req.body.currentTask;
-            taskToUpdate.lastIncrement = req.body.lastIncrement;
-            taskToUpdate.started = req.body.started;
-            console.log('UPDATED TASK', taskToUpdate);
-          } else {
-            user.tasks.push({
-              task: req.body.task,
-              project: req.body.project,
-              projectArray: req.body.projectArray,
-              start_time: moment(req.body.start_time).format('lll'),
-              end_time: moment(req.body.end_time).format('lll'),
-              total_time: moment(req.body.end_time).diff(moment(req.body.start_time), 'minutes'), //momentjs -- calculates elapsed time in minutes
-              currentTask: req.body.currentTask,
-              lastIncrement: req.body.lastIncrement,
-              started: req.body.started
-            });
-          }
-          user.save(function(err) {
-              if(!err) {
-                  console.log("user task added", req.body.task);
-              }
-              else {
-                  console.log("Error: could not save user.task " + req.body.task);
-              }
-          });
-        }
-        res.status(204).send(user.tasks);
+    {$push: {tasks:
+      {task: req.body.task,
+       project: req.body.project,
+       start_time: req.body.start_time,
+       end_time: req.body.end_time,
+       total_time: moment(req.body.end_time).diff(moment(req.body.start_time), 'minutes') //momentjs -- calculates elapsed time in minutes
+      }}
+    },
+    {upsert: true, new: true},
+    function(err, doc) {
+      if(err) {
+        return console.error(err);
       } else {
-        //if err
-        console.log('ERROR', err);
+        res.status(204).send('created new task');
       }
     }
   );
 });
-// app.post('/tasks', checkCredentials, function(req, res) {
-//   User.findOneAndUpdate(
-//     {_id: req.user._id}, //this comes from the cookie
-//     //push a new task into the tasks array
-//     {$push: {tasks:
-//       {
-//         _id: req.body._id,
-//         task: req.body.task,
-//         project: req.body.project,
-//         projectArray: req.body.projectArray,
-//         start_time: req.body.start_time,
-//         end_time: req.body.end_time,
-//         total_time: moment(req.body.end_time).diff(moment(req.body.start_time), 'minutes'), //momentjs -- calculates elapsed time in minutes
-//         currentTask: req.body.currentTask,
-//         lastIncrement: req.body.lastIncrement,
-//         started: req.body.started
-//       }}
-//     },
-//     {upsert: true, new: true},
-//     function(err, doc) {
-//       if(err) {
-//         return console.error(err);
-//       } else {
-//         res.status(204).send('created new task');
-//       }
-//     }
-//   );
-// });
 
 //get all tasks for a user
 app.get('/tasks', checkCredentials, function(req, res) {
@@ -197,4 +138,3 @@ app.get('/tasks', checkCredentials, function(req, res) {
 });
 
 module.exports = app;
-
