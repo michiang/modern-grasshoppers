@@ -9,11 +9,9 @@ class App extends React.Component {
 
     this.state = {
       tasks: [],
-      activeTask: '',
-      currentTask: true,
+      currentTask: '',
       currentTaskArray: [],
       start_time: Date,
-      end_time: Date,
       started: false,
       // Counter for the timer.
       secondsElapsed: 0,
@@ -72,23 +70,9 @@ class App extends React.Component {
       type: 'GET',
       url: '/tasks',
       success: function(data) {
-        //console.log('GOT DATA', data);
-        var completed = [];
-        var current = [];
-        data.forEach(function(d) {
-          //console.log('task', d);
-          if(d.currentTask === true) {
-            current.push(d)
-          } else {
-            completed.push(d)
-          }
-        });
-        console.log('GOT currentTasks', current);
-        console.log('GOT completedTasks', completed);
-
+        console.log('GOT DATA', data);
         context.setState({
           tasks: data,
-          currentTaskArray: current,
           isLoggedIn: true
         });
       },
@@ -109,12 +93,10 @@ class App extends React.Component {
       type: "POST",
       url: '/tasks',
       data: JSON.stringify({
-        task: this.state.activeTask,
+        task: this.state.currentTask,
         start_time: this.state.start_time,
-        end_time: this.state.end_time,
-        project: this.state.project,
-        currentTask: this.state.currentTask,
-        lastIncrement: this.state.lastIncrement
+        end_time: Date.now(),
+        project: this.state.project
       }),
       success: function(data) {
         console.log('POST SUCCESS');
@@ -167,7 +149,7 @@ class App extends React.Component {
     console.log('INSIDE POST', this.state);
     var that = this
     $.ajax({
-      type: 'POST',
+      type: "POST",
       url: '/signup',
       data: JSON.stringify({
         username: that.state.usernameInSignup,
@@ -176,13 +158,16 @@ class App extends React.Component {
       success: function(data) {
         console.log('SIGN-UP POST SUCCESS', data);
         that.setState({
-          passwordInSignin: '',
+          passwordInSignin: "",
           currentUser: that.state.usernameInSignin,
-          usernameTaken: false,
           isLoggedIn: true
         })
         console.log('SIGN-UP SUCCESS STATE', that.state);
         that.loadDataFromServer();
+        that.setState({
+          currentUser: that.state.usernameInSignin,
+          usernameTaken: false
+        })
       },
       error: function(error) {
         that.setState({
@@ -205,11 +190,9 @@ class App extends React.Component {
       success: function() {
         that.setState({
           tasks: [],
-          activeTask: '',
-          currentTask: Boolean,
+          currentTask: '',
           currentTaskArray: [],
           start_time: Date,
-          end_time: Date,
           started: false,
           // Counter for the timer.
           secondsElapsed: 0,
@@ -237,16 +220,11 @@ class App extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    // Send task to current task section.
     this.setState({
-      task: this.state.activeTask,
-      start_time: Date.now(),
-      end_time: this.state.end_time,
-      project: this.state.project,
-      currentTask: true,
-      lastIncrement: this.state.lastIncrement
+      currentTaskArray: this.state.currentTaskArray.concat(this.state.currentTask)
     });
     console.log('SUBMIT', this.state.currentTaskArray);
-    this.postDataToServer();
   }
 
   handleUsernameChange(e) {
@@ -258,11 +236,10 @@ class App extends React.Component {
 
   handleChange(event) {
     console.log('CHANGE STATE', this.state);
-    this.setState({activeTask: event.target.value});
+    this.setState({currentTask: event.target.value});
   }
 
   onStartButtonClick(e)  {
-    console.log('EVENT onStartButtonClick', e);
     //if started === true, then break out or invoke stop button event
     e.preventDefault();
     //Projects feature
@@ -279,24 +256,20 @@ class App extends React.Component {
     });
     console.log('EVENT', event);
     console.log('START STATE', this.state);
-    this.postDataToServer();
   };
 
   onStopButtonClick(e) {
-    console.log('EVENT onStopButtonClick', e);
     e.preventDefault();
-    this.setState({
-      end_time: Date.now(),
-      started: false,
-      currentTask: false
-    });
     this.postDataToServer();
-    this.incrementer = null;
+    //reset state
+    this.setState({
+      currentTask: '',
+      started: false,
+    });
     console.log('STOP STATE', this.state);
   };
 
   onPauseButtonClick(e) {
-    console.log('EVENT onPauseButtonClick', e);
     e.preventDefault();
     // Pause timer increment.
     clearInterval(this.incrementer);
@@ -304,7 +277,6 @@ class App extends React.Component {
     this.setState({
       lastIncrement: this.incrementer
     });
-    this.postDataToServer();
   }
 
   // Puts timer in a normal syntax, instead of just counting seconds.
@@ -349,7 +321,6 @@ class App extends React.Component {
               signout: this.signout.bind(this),
               loadDataFromServer: this.loadDataFromServer.bind(this),
               tasks: this.state.tasks,
-              activeTask: this.state.activeTask,
               currentTask: this.state.currentTask,
               currentTaskArray: this.state.currentTaskArray,
               start_time: this.state.start_time,
