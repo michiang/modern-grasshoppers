@@ -54,8 +54,7 @@ var checkCredentials = function(req, res, next) {
 
 app.get('/', checkCredentials, function(req, res) {
   console.log('GET /', req.body);
-  //res.send(user);
-  res.redirect('#/tasks');
+  res.send(user);
 });
 
 // app.get('/', checkCredentials, function(req, res) {
@@ -112,8 +111,7 @@ app.post('/tasks', checkCredentials, function(req, res) {
        project: req.body.project,
        start_time: req.body.start_time,
        end_time: req.body.end_time,
-       total_time: moment(req.body.end_time).diff(moment(req.body.start_time), 'minutes'), //momentjs -- calculates elapsed time in minutes
-       currentTask: req.body.currentTask
+       total_time: moment(req.body.end_time).diff(moment(req.body.start_time), 'minutes') //momentjs -- calculates elapsed time in minutes
       }}
     },
     {upsert: true, new: true},
@@ -140,4 +138,3 @@ app.get('/tasks', checkCredentials, function(req, res) {
 });
 
 module.exports = app;
-
