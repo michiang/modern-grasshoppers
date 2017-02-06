@@ -3,7 +3,7 @@ var React = require('react');
 var Projects = (props) => {
   return (
     <div className="project-list">
-    {props.projects.map((project) =>
+    {props.projectArray.map((project) =>
       <div>
         <ProjectsList
           project={project}
