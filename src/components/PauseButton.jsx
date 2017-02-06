@@ -2,8 +2,10 @@ import React from 'react';
 
 var PauseButton = (props) => {
   return (
-    <div className="start-time">
-      <button className = "btn btn-default" onClick={props.onPauseButtonClick} > PAUSE </button>
+    <div className="pause timer btn">
+      <button className = "btn btn-default" onClick={(e) => {
+        props.onPauseButtonClick(e)
+      }} > PAUSE </button>
     </div>
   );
 }
