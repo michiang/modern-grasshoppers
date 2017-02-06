@@ -4,7 +4,7 @@ var TaskEntry = (props) => {
   return (
     <div>
       <form onSubmit={props.handleSubmit}>
-        <input type='text' onChange={props.handleChange} value={props.activeTask} required/>
+        <input type='text' onChange={props.handleChange} value={props.currentTask} required/>
         <div className='buttons'>
           <SubmitButton />
         </div>
