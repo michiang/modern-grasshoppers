@@ -15,12 +15,12 @@ class App extends React.Component {
       currentTaskArray: [],
       start_time: Date,
       end_time: Date,
+      //started may be useful for changing state of the START button, etc
       started: false,
       // Counter for the timer.
       secondsElapsed: 0,
       // For keeping track of time when paused.
       lastIncrement: null,
-      //stop: true
       passwordInSignin: '',
       usernameInSignin: '',
       usernameInSignup: '',
@@ -45,26 +45,6 @@ class App extends React.Component {
   //Ajax get request needs to be wrapped in a function
   //so that the request can be called every time
   //componentdidMount is invoked
-  checkAuth() {
-    console.log('INSIDE checkAuth');
-    var context = this;
-    $.ajax({
-      type: 'GET',
-      url: '/',
-      success: function() {
-        console.log('LOGGED IN!');
-        context.setState({
-          isLoggedIn: true
-        });
-      },
-      error: function(error) {
-        console.log('NOT LOGGED IN!', error);
-      },
-      contentType: 'application/json',
-      dataType: 'json'
-    });
-  }
-
 
   //Loads data from API
   loadDataFromServer() {
@@ -73,20 +53,15 @@ class App extends React.Component {
       type: 'GET',
       url: '/tasks',
       success: function(data) {
-        //console.log('GOT DATA', data);
         var completed = [];
         var current = [];
         data.forEach(function(d) {
-          //console.log('task', d);
           if(d.currentTask === true) {
             current.push(d)
           } else {
             completed.push(d)
           }
         });
-        console.log('GOT currentTasks', current);
-        console.log('GOT completedTasks', completed);
-
         context.setState({
           tasks: completed,
           currentTaskArray: current,
@@ -104,7 +79,6 @@ class App extends React.Component {
   //Post data to the server only when the stop button event handler
   //is triggered
   postDataToServer() {
-    console.log('INSIDE POST DATA', this.state);
     var that = this;
     $.ajax({
       type: "POST",
@@ -122,11 +96,10 @@ class App extends React.Component {
         started: true,
       }),
       success: function(data) {
-        console.log('POST SUCCESS', data);
         that.loadDataFromServer();
       },
       error: function(error) {
-        console.log('POST DATA OOPS!', error);
+        console.log('POST DATA OOPS! error:', error);
       },
       contentType: 'application/json',
       dataType: 'json'
@@ -136,7 +109,6 @@ class App extends React.Component {
 
   postToSignin(e) {
     e.preventDefault();
-    console.log('INSIDE POST', this.state);
     var that = this
     $.ajax({
       type: 'POST',
@@ -146,14 +118,12 @@ class App extends React.Component {
         password: that.state.passwordInSignin
       }),
       success: function(data) {
-        //console.log('SIGN-IN POST SUCCESS DATA', data);
         that.setState({
           passwordInSignin: '',
           currentUser: that.state.usernameInSignin,
           incorrectLogin: false,
           isLoggedIn: true
         })
-        console.log('SIGN-IN SUCCESS STATE', that.state);
         that.loadDataFromServer();
         hashHistory.push('/tasks');
       },
@@ -161,7 +131,7 @@ class App extends React.Component {
         that.setState({
           incorrectLogin: true
         });
-        console.log('SIGN-IN POST OOPS!', error);
+        console.log('SIGN-IN POST OOPS! error:', error);
       },
       contentType: 'application/json',
       dataType: 'json'
@@ -170,7 +140,6 @@ class App extends React.Component {
 
   postToSignup(e) {
     e.preventDefault();
-    console.log('INSIDE POST', this.state);
     var that = this
     $.ajax({
       type: 'POST',
@@ -180,21 +149,19 @@ class App extends React.Component {
         password: that.state.passwordInSignup
       }),
       success: function(data) {
-        console.log('SIGN-UP POST SUCCESS', data);
         that.setState({
           passwordInSignin: '',
           currentUser: that.state.usernameInSignin,
           usernameTaken: false,
           isLoggedIn: true
         })
-        console.log('SIGN-UP SUCCESS STATE', that.state);
         hashHistory.push('/tasks');
       },
       error: function(error) {
         that.setState({
           usernameTaken: true
         });
-        console.log('SIGN-UP POST OOPS!', error);
+        console.log('SIGN-UP POST OOPS! error:', error);
       },
       contentType: 'application/json',
       dataType: 'json'
@@ -216,12 +183,12 @@ class App extends React.Component {
           currentTaskArray: [],
           start_time: null,
           end_time: null,
+          //started could be useful for toggling START button, otherwise unused
           started: false,
           // Counter for the timer.
           secondsElapsed: 0,
           // For keeping track of time when paused.
           lastIncrement: null,
-          //stop: true
           passwordInSignin: '',
           usernameInSignin: '',
           usernameInSignup: '',
@@ -231,11 +198,10 @@ class App extends React.Component {
           projectArray: [],
           isLoggedIn: false
         })
-        console.log('SIGN-OUT SUCCESS STATE', that.state);
         hashHistory.push('/signin');
       },
       error: function(error) {
-        console.log('SIGN-OUT OOPS!', error);
+        console.log('SIGN-OUT OOPS! error:', error);
       },
       contentType: 'application/json',
       dataType: 'json'
@@ -251,21 +217,19 @@ class App extends React.Component {
       project: this.state.project,
       currentTask: true,
       lastIncrement: this.state.lastIncrement
-    }, function afterHandleSubmit () {
-      console.log('SUBMIT', this.state.activeTask);
+    },
+    function afterHandleSubmit () {
       this.postDataToServer();
     });
   }
 
   handleUsernameChange(e) {
-    //console.log('CHANGE STATE', this.state);
     var state = {};
     state[e.target.name] = e.target.value;
     this.setState(state);
   }
 
   handleChange(event) {
-    console.log('CHANGE STATE', this.state);
     this.setState({activeTask: event.target.value});
   }
 
@@ -281,7 +245,7 @@ class App extends React.Component {
     // total_time:0
 
     e.preventDefault();
-    //Projects feature
+    //Adds Project Name feature
     var projectName = prompt("Enter your project", "Project Name");
     this.setState({
       _id: item._id,
@@ -292,9 +256,12 @@ class App extends React.Component {
       start_time: Date.now(),
       total_time: item.total_time,
       started: true,  //so we can prevent another task from being created
-    }, function afterOnStartStateUpdated () {
+    },
+    function afterOnStartStateUpdated () {
       this.postDataToServer();
+      // related to timer feature
       this.incrementer = setInterval(() => (this.tick()), 1000);
+      // reset state
       this.setState({
         _id: null,
         activeTask: '',
@@ -304,12 +271,10 @@ class App extends React.Component {
         total_time: 0,
         started: false,  //so we can prevent another task from being created
       });
-      console.log('START STATE', this.state);
     });
   };
 
   onStopButtonClick(item, e) {
-    console.log('ITEM onStopButtonClick', item);
     e.preventDefault();
     this.setState({
       _id: item._id,
@@ -320,10 +285,14 @@ class App extends React.Component {
       end_time: Date.now(),
       total_time: item.total_time,
       started: false,
+      //related to timer feature, = the current timestamp of the timer
       lastIncrement: this.incrementer
-    }, function afterOnStopStateUpdated () {
+    },
+    function afterOnStopStateUpdated () {
       this.postDataToServer();
+      // related to timer feature, resets the incrementer
       this.incrementer = null;
+      // reset state
       this.setState({
         _id: null,
         activeTask: '',
@@ -333,12 +302,12 @@ class App extends React.Component {
         total_time: 0,
         started: false,  //so we can prevent another task from being created
       });
-      console.log('STOP STATE', this.state);
     });
   };
 
+  /* BELOW FUNCTIONS RELATE TO TIMER FEATURE */
+
   onPauseButtonClick(item, e) {
-    console.log('ITEM onPauseButtonClick', item);
     e.preventDefault();
     // Pause timer increment.
     clearInterval(this.incrementer);
@@ -361,12 +330,14 @@ class App extends React.Component {
     });
   }
 
+  /* END TIMER FUNCTIONS */
+
+
+
   componentDidMount() {
     console.log('COMPONENT DID MOUNT');
-    //authenticate user
-    //this.checkAuth();
+    //check user authenticated by visiting '/tasks'
     hashHistory.push('/tasks');
-    //this.loadDataFromServer();
   }
 
   render() {
@@ -374,51 +345,50 @@ class App extends React.Component {
       <div id='main'>
         <nav>
           <ul role='nav'>
-            <li><Link to='/'>Home</Link></li>
             <li><Link to='signin'>Sign In</Link></li>
             <li><Link to='signup'>Sign Up</Link></li>
           </ul>
         </nav>
         {this.props.children && React.cloneElement(this.props.children, {
-              postDataToServer: this.postDataToServer.bind(this),
-              onStartButtonClick: this.onStartButtonClick.bind(this),
-              onPauseButtonClick: this.onPauseButtonClick.bind(this),
-              onStopButtonClick: this.onStopButtonClick.bind(this),
-              handleChange: this.handleChange.bind(this),
-              handleSubmit: this.handleSubmit.bind(this),
-              handleUsernameChange: this.handleUsernameChange.bind(this),
-              postToSignin: this.postToSignin.bind(this),
-              postToSignup: this.postToSignup.bind(this),
-              signout: this.signout.bind(this),
-              loadDataFromServer: this.loadDataFromServer.bind(this),
-              tasks: this.state.tasks,
-              activeTask: this.state.activeTask,
-              currentTask: this.state.currentTask,
-              currentTaskArray: this.state.currentTaskArray,
-              start_time: this.state.start_time,
-              end_time: this.state.end_time,
-              started: this.state.started,
-              secondsElapsed: this.state.secondsElapsed,
-              // For keeping track of time when paused.
-              lastIncrement: this.state.lastIncrement,
-              //stop: true
-              project: this.state.project,
-              projectArray: this.state.projectArray,
-              incorrectLogin: this.state.incorrectLogin,
-              usernameTaken: this.state.usernameTaken,
-              passwordInSignin: this.state.passwordInSignin,
-              usernameInSignin: this.state.usernameInSignin,
-              usernameInSignup: this.state.usernameInSignup,
-              passwordInSignup: this.state.passwordInSignup,
-              currentUser: this.state.currentuser,
-              isLoggedIn: this.state.isLoggedIn,
-              formatTime: this.formatTime,
-              tick: this.tick
-            })}
+          postDataToServer:   this.postDataToServer.bind(this),
+          onStartButtonClick: this.onStartButtonClick.bind(this),
+          onPauseButtonClick: this.onPauseButtonClick.bind(this),
+          onStopButtonClick:  this.onStopButtonClick.bind(this),
+          handleChange:       this.handleChange.bind(this),
+          handleSubmit:       this.handleSubmit.bind(this),
+          handleUsernameChange: this.handleUsernameChange.bind(this),
+          postToSignin:       this.postToSignin.bind(this),
+          postToSignup:       this.postToSignup.bind(this),
+          signout:            this.signout.bind(this),
+          loadDataFromServer: this.loadDataFromServer.bind(this),
+          tasks:              this.state.tasks,
+          activeTask:         this.state.activeTask,
+          currentTask:        this.state.currentTask,
+          currentTaskArray:   this.state.currentTaskArray,
+          start_time:         this.state.start_time,
+          end_time:           this.state.end_time,
+          started:            this.state.started,
+          secondsElapsed:     this.state.secondsElapsed,
+          lastIncrement:      this.state.lastIncrement,
+          project:            this.state.project,
+          projectArray:       this.state.projectArray,
+          incorrectLogin:     this.state.incorrectLogin,
+          usernameTaken:      this.state.usernameTaken,
+          passwordInSignin:   this.state.passwordInSignin,
+          usernameInSignin:   this.state.usernameInSignin,
+          usernameInSignup:   this.state.usernameInSignup,
+          passwordInSignup:   this.state.passwordInSignup,
+          currentUser:        this.state.currentuser,
+          isLoggedIn:         this.state.isLoggedIn,
+          formatTime:         this.formatTime,
+          tick:               this.tick
+        })}
       </div>
     );
   }
 
+
+  /* MIGHT TRY USING THIS TO PASS PROPS */
   // render: function() {
   //   var children = React.Children.map(this.props.children, function (child) {
   //     return React.cloneElement(child, {
@@ -433,5 +403,4 @@ class App extends React.Component {
 
 
 window.App = App;
-//export default App
 

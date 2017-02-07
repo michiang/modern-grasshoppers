@@ -42,9 +42,7 @@ passport.deserializeUser(User.deserializeUser(function(id, done) {
 }));
 
 //only allows http requests to tasks to go through if a user is authenticated
-//maybe move this to a different module
 var checkCredentials = function(req, res, next) {
-  console.log('REQ isAuthenticated', req.isAuthenticated());
   if(req.isAuthenticated()) {
     return next();
   } else {
@@ -53,29 +51,13 @@ var checkCredentials = function(req, res, next) {
 };
 
 app.get('/', checkCredentials, function(req, res) {
-  console.log('GET /', req.user);
   res.send(user);
-  //res.redirect('#/tasks');
 });
-
-// app.get('/', checkCredentials, function(req, res) {
-//   console.log('GET /', req.user);
-//   User.findOne({_id: req.user._id}) //req.user._id comes from the cookie
-//     .then(function(user) {
-//       res.send(user);
-//     })
-//     .catch(function(err) {
-//       console.error(err);
-//       res.redirect('#/signin');
-//     });
-// });
 
 //add a new user
 //http://mherman.org/blog/2015/01/31/local-authentication-with-passport-and-express-4/
 app.post('/signup', function(req, res) {
-  console.log('signing up', req.body.username, req.body.password);
-  //User.register is passport local mongoose method. It checks to see if a username already exists, and only signs the new user up
-  //if it does not.
+  //User.register is passport local mongoose method. It checks to see if a username already exists, and only signs the new user up if it does not.
   User.register(new User({ username: req.body.username}), req.body.password, function(err, user) {
     if(err) {
       console.error(err);
@@ -89,17 +71,12 @@ app.post('/signup', function(req, res) {
 
 //Sign in an existing user. Passport.authenticate checks the password and sends back the cookie if correct (using serializeUser)
 app.post('/signin', passport.authenticate('local'), function(req, res) {
-  //check to see what username and password is being passed in
-  // console.log(req.body.password);
-  // console.log(req.body.username);
-  //console.log('SERVER POST SIGN-IN', req.body.username);
   res.status(204).send('You are signed in');
 });
 
 app.post('/signout', function(req, res) {
-  //console.log('SIGN-OUT', req.user);
-    req.logout();
-    res.status(204).send('You are signed out');
+  req.logout();
+  res.status(204).send('You are signed out');
 });
 
 //add a new task for a user
@@ -114,7 +91,7 @@ app.post('/tasks', checkCredentials, function(req, res) {
         } else {
           if(user.tasks.id(req.body._id)) {
             var taskToUpdate = user.tasks.id(req.body._id);
-            console.log('FOUND TASK to update', taskToUpdate);
+            //console.log('FOUND TASK to update', taskToUpdate);
             taskToUpdate.task = req.body.task;
             taskToUpdate.project = req.body.project;
             taskToUpdate.projectArray = req.body.projectArray;
@@ -124,7 +101,7 @@ app.post('/tasks', checkCredentials, function(req, res) {
             taskToUpdate.currentTask = req.body.currentTask;
             taskToUpdate.lastIncrement = req.body.lastIncrement;
             taskToUpdate.started = req.body.started;
-            console.log('UPDATED TASK', taskToUpdate);
+            //console.log('UPDATED TASK', taskToUpdate);
           } else {
             user.tasks.push({
               task: req.body.task,
@@ -139,12 +116,12 @@ app.post('/tasks', checkCredentials, function(req, res) {
             });
           }
           user.save(function(err) {
-              if(!err) {
-                  console.log("user task added", req.body.task);
-              }
-              else {
-                  console.log("Error: could not save user.task " + req.body.task);
-              }
+            if(!err) {
+              console.log("user task added", req.body.task);
+            }
+            else {
+              console.log("Error: could not save user.task " + req.body.task);
+            }
           });
         }
         res.status(204).send(user.tasks);
@@ -155,38 +132,9 @@ app.post('/tasks', checkCredentials, function(req, res) {
     }
   );
 });
-// app.post('/tasks', checkCredentials, function(req, res) {
-//   User.findOneAndUpdate(
-//     {_id: req.user._id}, //this comes from the cookie
-//     //push a new task into the tasks array
-//     {$push: {tasks:
-//       {
-//         _id: req.body._id,
-//         task: req.body.task,
-//         project: req.body.project,
-//         projectArray: req.body.projectArray,
-//         start_time: req.body.start_time,
-//         end_time: req.body.end_time,
-//         total_time: moment(req.body.end_time).diff(moment(req.body.start_time), 'minutes'), //momentjs -- calculates elapsed time in minutes
-//         currentTask: req.body.currentTask,
-//         lastIncrement: req.body.lastIncrement,
-//         started: req.body.started
-//       }}
-//     },
-//     {upsert: true, new: true},
-//     function(err, doc) {
-//       if(err) {
-//         return console.error(err);
-//       } else {
-//         res.status(204).send('created new task');
-//       }
-//     }
-//   );
-// });
 
 //get all tasks for a user
 app.get('/tasks', checkCredentials, function(req, res) {
-  //console.log('REQ.user', req.user);
   User.findOne({_id: req.user._id}) //req.user._id comes from the cookie
     .then(function(user) {
       res.send(user.tasks);

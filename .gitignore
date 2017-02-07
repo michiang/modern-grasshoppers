@@ -1,6 +1,9 @@
 ### node etc ###
 
 # Logs
+server/config/config.js
+
+# Logs
 logs
 *.log
 
@@ -19,8 +22,6 @@ coverage
 .grunt
 
 # Compiled Dirs (http://nodejs.org/api/addons.html)
-build/
-dist/
 public/bundle.js
 
 # Floobits
