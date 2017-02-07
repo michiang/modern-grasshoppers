@@ -17,7 +17,6 @@ var TasksLayout = (props) => (
           />
         </div>
 
-        { /*TODO: Change className?*/ }
         <div className="container tasks">
           <CurrentTasksView
             tasks={props.currentTaskArray}
@@ -34,5 +33,5 @@ var TasksLayout = (props) => (
       </div>
     </div>
 )
-//window.Layout = Layout;
+
 export default TasksLayout;
