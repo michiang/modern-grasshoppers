@@ -1,9 +1,6 @@
 ### node etc ###
 
 # Logs
-server/config/config.js
-
-# Logs
 logs
 *.log
 

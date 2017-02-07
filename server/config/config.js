@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
-//var databasepath = 'mongodb://localhost/whathaveidone';
-var databasepath = '';
+var databasepath = 'mongodb://localhost/whathaveidone';
+
 mongoose.connect(databasepath);
 
 var db = mongoose.connection;
